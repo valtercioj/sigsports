@@ -38,29 +38,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         username,
         password,
       });
-      // Atualizando o username após sucesso no login
-      setCookie(undefined, "sig-token", response.data.access);
-      setCookie(undefined, "sig-refreshToken", response.data.refresh);
 
       const response1 = await api2.get("/v1/usuarios/");
       const pessoas: UserType[] = await response1.data;
       const pessoaEncontrada = pessoas.find(
         (pessoa) => pessoa.matricula === username
       );
-      if (pessoaEncontrada) {
-        setCookie(undefined, "admin", `${pessoaEncontrada.adm}`);
-        setCookie(undefined, "Tour", pessoaEncontrada.tour);
-        setId(pessoaEncontrada.id);
+
+      if (!pessoaEncontrada) {
+        setToken(null);
+        return { message: "Usuário não cadastrado" }; // Garantir que a mensagem de erro seja retornada
       }
 
-      if (response.data.access) {
-        setToken(response.data.access);
-      }
+      // Se o usuário for encontrado, armazena o token e outras informações
+      setCookie(undefined, "sig-token", response.data.access);
+      setCookie(undefined, "sig-refreshToken", response.data.refresh);
+      setCookie(undefined, "admin", `${pessoaEncontrada.adm}`);
+      setCookie(undefined, "Tour", pessoaEncontrada.tour);
 
-      // Redirecionando para o dashboard após sucesso no login
+      setId(pessoaEncontrada.id);
       Router.push("/dashboard");
+
+      return {}; // Nenhum erro, fluxo normal
     } catch (error: any) {
-      return { mensage: error.response?.data?.detail };
+      return { message: error?.response?.data?.detail || "Erro desconhecido" }; // Erro de token ou outro erro
     }
   }
 

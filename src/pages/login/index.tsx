@@ -48,15 +48,23 @@ export default function Login() {
 
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data: FormData) => {
-    const response = await signIn(data);
-    setIsLoading(true);
-    if (response) {
-      setIsLoading(false);
-    }
-    if (response?.mensage) {
+    setIsLoading(true); // Ativa o carregamento
+    try {
+      const response = await signIn(data);
+
+      // Se a resposta contém a mensagem de erro, mostramos o toast
+      if (response && response.message) {
+        notification.error({
+          message: response.message, // Exibe a mensagem de erro no toast
+        });
+      }
+    } catch (error: any) {
+      // Caso ocorra um erro inesperado, mostramos um toast genérico
       notification.error({
-        message: response.mensage,
+        message: error?.response?.data?.detail || "Erro desconhecido",
       });
+    } finally {
+      setIsLoading(false); // Desativa o carregamento, independentemente do resultado
     }
   };
 

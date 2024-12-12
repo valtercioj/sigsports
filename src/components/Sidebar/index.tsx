@@ -11,12 +11,13 @@ import { Spin as Hamburger } from "hamburger-react";
 import Router, { useRouter } from "next/router";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { Quicksand } from "next/font/google";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Tour, ConfigProvider } from "antd";
 import ptBR from "antd/lib/locale/pt_BR"; // Importa a tradução pt-BR
 import type { TourProps } from "antd";
 import CriarTurma from "../Forms/CriarTurma";
 import { api2 } from "@/services/api";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const quicksand = Quicksand({
   weight: "600",
@@ -25,6 +26,8 @@ const quicksand = Quicksand({
 });
 
 export default function Sidebar() {
+  const { id } = useContext(AuthContext);
+
   const ref = useRef(null);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -32,7 +35,6 @@ export default function Sidebar() {
   const ref4 = useRef(null);
   const cookies = parseCookies();
   const tour = cookies.Tour;
-  const { id } = cookies;
   const admin = cookies.admin === "1";
   const [openTour, setOpenTour] = useState<boolean>(false);
   async function setTour() {
@@ -80,6 +82,32 @@ export default function Sidebar() {
       description: "Listagem de todos os usuários do sistema",
       placement: "top",
       target: () => ref4.current,
+    },
+  ];
+  const steps1: TourProps["steps"] = [
+    {
+      title: "Criar Turma",
+      description: "Formulário de criação de uma turma no sistema",
+      target: () => ref.current,
+      arrow: true,
+    },
+    {
+      title: "Listar Turmas",
+      description: "Listagem de todas as turmas do sistema",
+      placement: "right",
+      target: () => ref1.current,
+    },
+    {
+      title: "Sugestões",
+      description: "Sugestões de esportes escolhidos pelos alunos",
+      placement: "top",
+      target: () => ref2.current,
+    },
+    {
+      title: "Empréstimo",
+      description: "Formulário de empréstimo de materiais",
+      placement: "right",
+      target: () => ref3.current,
     },
   ];
 
@@ -317,14 +345,29 @@ export default function Sidebar() {
           </nav>
         </div>
       </aside>
-      <ConfigProvider locale={ptBR}>
-        <Tour
-          open={openTour}
-          onClose={() => setTour()}
-          steps={steps}
-          type="primary"
-        />
-      </ConfigProvider>
+      <div className="hidden md:block">
+        {admin ? (
+          <ConfigProvider locale={ptBR}>
+            <Tour
+              open={openTour}
+              onClose={() => setTour()}
+              steps={steps}
+              type="primary"
+              // Isso oculta no mobile e mostra nas telas maiores
+            />
+          </ConfigProvider>
+        ) : (
+          <ConfigProvider locale={ptBR}>
+            <Tour
+              open={openTour}
+              onClose={() => setTour()}
+              steps={steps1}
+              type="primary"
+              className="hidden md:block" // Também oculta no mobile e mostra nas telas maiores
+            />
+          </ConfigProvider>
+        )}
+      </div>
     </>
   );
 }
