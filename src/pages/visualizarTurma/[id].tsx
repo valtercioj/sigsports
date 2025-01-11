@@ -420,7 +420,10 @@ const VisualizarTurma: NextPage<{
   }, []);
   return (
     <>
-      <Layout>
+      <Layout
+        title="Visualizar Turma"
+        description="Visualizar detalhes da turma"
+      >
         <div className="flex h-full  flex-col items-center justify-center pl-4 md:w-4/5 md:pl-16 ">
           <div className="mt-4 flex h-full w-full items-center md:mt-16">
             <Link href="/listarTurmas" className="mr-6 hover:cursor-pointer">

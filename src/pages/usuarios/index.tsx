@@ -304,7 +304,10 @@ export default function Index() {
     }
   };
   return (
-    <Layout>
+    <Layout
+      title="Usuários"
+      description="Gerenciamento de usuários cadastrados no sistema"
+    >
       <div className="flex h-screen w-full flex-col items-center pl-4 lg:items-start lg:pl-12">
         <div className="mt-4 flex w-full flex-col  md:mt-4">
           <div className="mt-4 flex h-full w-full items-center md:mt-16">
