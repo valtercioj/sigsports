@@ -1,5 +1,5 @@
 import { Quicksand } from "next/font/google";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { Table, Tooltip } from "antd";
@@ -17,6 +17,7 @@ const quicksand = Quicksand({
 //   subsets: ["latin"],
 // });
 export default function Sugestoes() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(3);
   const handleTableChange = (pagination: any) => {
@@ -93,10 +94,17 @@ export default function Sugestoes() {
     }
   );
   return (
-    <Layout>
+    <Layout
+      title="Sugestões"
+      description="Gerenciamento de sugestões cadastrados no sistema"
+    >
       <div className="flex h-full  flex-col items-center justify-center pl-4 md:w-4/5 md:pl-16 ">
-        <div className="mt-4 flex h-full w-full items-center md:mt-16">
-          <Link href="/listarTurmas" className="mr-6 hover:cursor-pointer">
+        <div className="mt-4 flex h-full w-full items-center md:mt-4">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="mr-6 hover:cursor-pointer"
+          >
             <svg
               width="30"
               height="30"
@@ -122,17 +130,7 @@ export default function Sugestoes() {
                 </clipPath>
               </defs>
             </svg>
-          </Link>
-          <h1
-            className={`${quicksand.className} leading-[ 37.57px] text-3xl font-semibold text-green-bg`}
-          >
-            Sugestões
-          </h1>
-        </div>
-        <div className="mt-4 flex w-full">
-          <h2 className="max-w-lg text-2xl font-semibold leading-9 text-green-bg dark:text-green-300 ">
-            Gerenciamento de sugestões cadastrados no sistema
-          </h2>
+          </button>
         </div>
         <div className={`${quicksand.className} mt-4 w-full`}>
           <Table

@@ -4,7 +4,7 @@
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { Montserrat, Quicksand } from "next/font/google";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { Dropdown, Menu } from "antd";
 import CriarTurma from "@/components/Forms/CriarTurma";
 import Layout from "@/components/Layout";
@@ -84,11 +84,19 @@ export default function ListarTurmas({
     }
   };
 
+  const router = useRouter();
   return (
-    <Layout>
-      <div className="flex h-full w-full flex-col items-center justify-center pl-4 md:w-4/5 md:pl-16">
-        <div className="mt-4 flex h-full w-full items-center md:mt-16">
-          <Link href="/dashboard" className="mr-6 hover:cursor-pointer">
+    <Layout
+      title="Listagem de Turmas"
+      description="visualizações de todas as turmas criadas"
+    >
+      <div className="flex h-full w-full flex-col items-center justify-center pl-4 md:w-4/5 md:pl-10">
+        <div className="mt-4 flex h-full w-full items-center md:mt-4">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="mr-6 hover:cursor-pointer"
+          >
             <svg
               width="30"
               height="30"
@@ -114,12 +122,7 @@ export default function ListarTurmas({
                 </clipPath>
               </defs>
             </svg>
-          </Link>
-          <h1
-            className={`${quicksand.className} mr-auto text-3xl font-semibold leading-[37.57px] text-green-bg `}
-          >
-            Listar turmas
-          </h1>
+          </button>
         </div>
         <div className="flex h-full w-full flex-col items-center gap-x-4 md:flex-row">
           <div className="flex w-full flex-col justify-center">
@@ -162,7 +165,7 @@ export default function ListarTurmas({
           </div>
         </div>
         <div
-          className={`${quicksand.className} mr-auto mt-14 grid gap-x-12 gap-y-10 rounded-lg md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}
+          className={`${quicksand.className} mr-auto mt-14 grid gap-x-12 gap-y-10 rounded-lg md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4`}
         >
           {filteredTurmas.map((turma) => (
             <Card
