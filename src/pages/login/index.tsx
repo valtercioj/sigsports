@@ -69,7 +69,7 @@ export default function Login() {
   };
 
   return (
-    <div className={`${quicksand.className} flex h-screen `}>
+    <div className={`scrollable ${quicksand.className} flex h-screen `}>
       <div className="flex h-full w-full flex-col lg:justify-between ">
         <div className="fixed z-50 flex w-screen bg-bgGray shadow-2xl">
           <nav className="z-50 w-full">

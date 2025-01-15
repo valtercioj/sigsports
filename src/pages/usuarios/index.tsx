@@ -307,55 +307,10 @@ export default function Index() {
     <Layout
       title="Usuários"
       description="Gerenciamento de usuários cadastrados no sistema"
+      op
     >
-      <div className="flex h-screen w-full flex-col items-center pl-4 lg:items-start lg:pl-12">
-        <div className="mt-4 flex w-full flex-col  md:mt-4">
-          <div className="mt-4 flex h-full w-full items-center md:mt-16">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="mr-6 hover:cursor-pointer"
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="30" height="30" rx="5" fill="#16DB65" />
-                <g clipPath="url(#clip0_1450_3668)">
-                  <path
-                    d="M13.9023 15.0004L18.543 10.3598L17.2173 9.03418L11.2511 15.0004L17.2173 20.9667L18.543 19.6411L13.9023 15.0004Z"
-                    fill="white"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1450_3668">
-                    <rect
-                      width="22.5"
-                      height="22.5"
-                      fill="white"
-                      transform="matrix(-1 0 0 1 26.25 3.75)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </button>
-            <h1
-              className={`${quicksand.className} mr-auto text-3xl font-semibold leading-[37.57px] text-green-bg `}
-            >
-              USUÁRIOS
-            </h1>
-          </div>
-          <span
-            className={`${raleway.className} mt-4 w-[256px] text-sm font-normal leading-tight text-green-bg`}
-          >
-            Gerenciamento de usuários cadastrados no sistema
-          </span>
-        </div>
-
-        <div className="my-9 flex w-full flex-col justify-center gap-6 pr-5 md:my-0 md:mt-9 md:flex-row md:justify-between">
+      <>
+        <div className="my-9 flex w-full flex-col justify-center gap-6 pr-5 md:my-0 md:mt-4 md:flex-row md:justify-between">
           <div className="relative">
             <button
               type="button"
@@ -385,21 +340,13 @@ export default function Index() {
           columns={columns}
           dataSource={currentUsers}
           locale={{ emptyText: "Nenhum Usuário Cadastrado" }}
-          pagination={false} // Desabilitar a paginação dentro do componente Table
+          pagination={{ position: ["bottomRight"] }} // Desabilitar a paginação dentro do componente Table
           onChange={handleTableChange}
           rowKey="id"
           className="even:bg-d9d9d9 odd:bg-aeaeae mt-2 w-full table-auto divide-y divide-gray-200"
           scroll={{ x: true }}
         />
-
-        <Pagination
-          current={currentPage}
-          total={filteredData?.length}
-          pageSize={usersPerPage}
-          onChange={onChangePage}
-          style={{ marginTop: "1rem", textAlign: "center" }}
-        />
-      </div>
+      </>
       <Drawer title="Criar Usuário" onClose={onClose} open={open}>
         <h2
           className={`${quicksand.className} px-4 text-sm font-semibold leading-9 text-green-bg dark:text-green-300 `}

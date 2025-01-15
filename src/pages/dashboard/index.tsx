@@ -265,9 +265,9 @@ const IndexPage = ({
   );
 
   return (
-    <Layout title="Dashboard">
-      <div className="flex h-full w-full flex-col items-center bg-white-default pl-4 lg:items-start lg:pl-12">
-        <div className="mt-4 flex w-full flex-col items-center justify-between gap-y-4 pr-8 md:mt-16 2xl:flex-row">
+    <Layout title="Dashboard" rollback={false} op>
+      <>
+        <div className="mt-4 flex w-full flex-col items-center justify-between gap-y-4 pr-8 2xl:flex-row">
           <div className="flex h-[16.813rem] w-full flex-col items-center rounded-lg border border-l-8 border-r-8 border-green-200 p-8 shadow-md 2xl:w-[35.063rem] ">
             <h2 className={`${quicksand.className} text-lg font-bold`}>
               Esportes mais procurados
@@ -331,10 +331,10 @@ const IndexPage = ({
             </Dropdown>
           </h1>
         </div>
-        <div className="flex h-[400px] w-full justify-center">
+        <div className="mb-6 flex h-[400px] w-full justify-center md:mb-0">
           <Column {...config1} className="w-full overflow-x-auto" />
         </div>
-      </div>
+      </>
     </Layout>
   );
 };

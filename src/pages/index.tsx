@@ -160,7 +160,7 @@ export default function Home({
   }
 
   return (
-    <div className="flex flex-col bg-white-default">
+    <div className="scrollable flex flex-col bg-white-default">
       <div
         className={`${quicksand.className} flex w-full bg-bgGray pb-10 md:pb-10  lg:h-screen lg:pb-0 `}
       >

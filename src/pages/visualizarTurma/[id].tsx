@@ -7,7 +7,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unsafe-optional-chaining */
 import { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import { FilePdfTwoTone, UserAddOutlined } from "@ant-design/icons";
 import { Tabs, Table, Input, Form, notification, Checkbox, Modal } from "antd";
@@ -65,6 +64,8 @@ const VisualizarTurma: NextPage<{
 }> = ({ turma, alunos }) => {
   const router = useRouter();
   const [alunoF, setAlunoF] = useState<any>();
+  const [alunoId, setAlunoId] = useState<number>();
+  const [nomeAluno, setNomeAluno] = useState<string>();
   const [open, setOpen] = useState(false);
   const onOpenModalAluno = (alunoE: any) => {
     setOpen(true);
@@ -95,7 +96,6 @@ const VisualizarTurma: NextPage<{
     useState<boolean>(false);
   const [selectAllEspera, setSelectAllEspera] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-  const [alunoId, setId] = useState<number>();
   const [pageSize, setPageSize] = useState(3);
   const handleSearch = () => {
     const alunosMatriculados = alunos.filter(
@@ -261,15 +261,17 @@ const VisualizarTurma: NextPage<{
         <div className="flex gap-x-4">
           <FormEdit
             quicksand={quicksand}
+            fnAluno={setFilteredAlunosMatriculados}
             aluno={filteredAlunosMatriculados.filter(
               (aluno) => aluno.id === record.id
             )}
+            alunos={filteredAlunosMatriculados}
           />
           <SlTrash
             className="h-[22px] w-5 text-[#616161] hover:cursor-pointer"
             onClick={() => {
               setIsModalDeleteOpen(true);
-              setId(record.id);
+              setAlunoId(record.id);
             }}
           />
           <FilePdfTwoTone
@@ -307,6 +309,12 @@ const VisualizarTurma: NextPage<{
                   message: "Escolha pelo menos 1 aluno para excluir",
                 });
               } else {
+                if (alunoId && alunoId > 0) {
+                  const findNome = filteredAlunosEspera.find(
+                    (aluno) => aluno.id === selectedUsers[0]
+                  );
+                  setNomeAluno(findNome?.nomeAluno);
+                }
                 setIsModalDeleteOpen(true);
               }
             }}
@@ -319,7 +327,11 @@ const VisualizarTurma: NextPage<{
       key: "checkbox",
       render: (text: any, record: any) => (
         <Checkbox
-          onChange={() => toggleUserSelection(record.id)}
+          onChange={() => {
+            setNomeAluno(text.nomeAluno);
+            toggleUserSelection(record.id);
+            setAlunoId(record.id);
+          }}
           checked={selectedUsers.includes(record.id)}
         />
       ),
@@ -352,6 +364,7 @@ const VisualizarTurma: NextPage<{
         <div className="flex gap-x-4">
           <FormEdit
             quicksand={quicksand}
+            alunos={filteredAlunosEspera}
             aluno={filteredAlunosEspera.filter(
               (aluno) => aluno.id === record.id
             )}
@@ -360,7 +373,8 @@ const VisualizarTurma: NextPage<{
             className="h-[22px] w-5 text-[#616161] hover:cursor-pointer"
             onClick={() => {
               setIsModalDeleteOpen(true);
-              setId(record.id);
+              setAlunoId(record.id);
+              setNomeAluno(record.nomeAluno);
             }}
           />
           <UserAddOutlined
@@ -423,44 +437,10 @@ const VisualizarTurma: NextPage<{
       <Layout
         title="Visualizar Turma"
         description="Visualizar detalhes da turma"
+        op={false}
       >
-        <div className="flex h-full  flex-col items-center justify-center pl-4 md:w-4/5 md:pl-16 ">
-          <div className="mt-4 flex h-full w-full items-center md:mt-16">
-            <Link href="/listarTurmas" className="mr-6 hover:cursor-pointer">
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="30" height="30" rx="5" fill="#16DB65" />
-                <g clipPath="url(#clip0_1450_3668)">
-                  <path
-                    d="M13.9023 15.0004L18.543 10.3598L17.2173 9.03418L11.2511 15.0004L17.2173 20.9667L18.543 19.6411L13.9023 15.0004Z"
-                    fill="white"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1450_3668">
-                    <rect
-                      width="22.5"
-                      height="22.5"
-                      fill="white"
-                      transform="matrix(-1 0 0 1 26.25 3.75)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </Link>
-            <h1
-              className={`${quicksand.className} leading-[ 37.57px] text-3xl font-semibold text-green-bg`}
-            >
-              {turma.nomeTurma} {turma.genero}
-            </h1>
-          </div>
-
-          <div className="mt-10 flex  w-full items-center  rounded-md border-[3px] border-green-200 py-2 pl-14 pr-10">
+        <div className="w-full">
+          <div className="mt-4 flex  items-center  rounded-md border-[3px] border-green-200 py-2 pl-14 pr-10">
             <div className="flex w-full flex-col items-center font-Montserrat  tablet:flex-row">
               <div className="flex h-full w-full flex-col items-center justify-center py-1 font-medium text-green-bg md:w-1/4 md:py-0  ">
                 <h1
@@ -663,6 +643,8 @@ const VisualizarTurma: NextPage<{
                     quicksand={quicksand}
                     id={id}
                     turma={turma}
+                    fnAlunosMatriculados={setFilteredAlunosMatriculados}
+                    fnAlunosEspera={setFilteredAlunosEspera}
                     capacidade={turma.vagas - filteredAlunosMatriculados.length}
                     alunosMatriculados={filteredAlunosMatriculados}
                     alunosEspera={filteredAlunosEspera}
@@ -674,6 +656,7 @@ const VisualizarTurma: NextPage<{
                   dataSource={filteredAlunosMatriculados}
                   locale={{ emptyText: "Nenhum Aluno Matriculado" }}
                   columns={columns}
+                  loading={loading}
                   pagination={{
                     current: currentPage,
                     pageSize: pageSize,
@@ -727,14 +710,20 @@ const VisualizarTurma: NextPage<{
             ? () => alunoId && deleteUser(alunoId)
             : () => deleteUsers()
         }
-        onCancel={() => setIsModalDeleteOpen(false)}
+        onCancel={() => {
+          setNomeAluno("");
+          setIsModalDeleteOpen(false);
+        }}
       >
         <div>
           {selectedUsers.length > 1 &&
             `Tem certeza que deseja excluir esses alunos(a)?`}
           {selectedUsers.length === 1 ||
             (selectedUsers.length === 0 &&
-              `Tem certeza que deseja excluir esse aluno(a)?`)}
+              `Tem certeza que deseja excluir ${nomeAluno}?`)}
+          {alunoId &&
+            selectedUsers.length === 1 &&
+            `Tem certeza que deseja excluir ${nomeAluno}?`}
         </div>
       </Modal>
       <Modal

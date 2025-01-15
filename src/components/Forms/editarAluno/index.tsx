@@ -2,7 +2,6 @@
 import { Drawer, Button, Form, Input, Spin } from "antd";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { TbPencil } from "react-icons/tb";
 import { api } from "@/services/api";
 
@@ -17,13 +16,16 @@ type Aluno = {
 export default function FormUser({
   quicksand,
   aluno,
+  fnAluno,
+  alunos,
 }: {
   quicksand: any;
   aluno: Aluno[];
+  alunos: Aluno[];
+  fnAluno?: any;
 }) {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const showDrawer = () => {
     form.setFieldsValue(aluno[0]);
     setOpen(true);
@@ -41,9 +43,11 @@ export default function FormUser({
       await api.put(`v1/matriculas/${id}`, values);
       toast.success("Aluno editado com sucesso");
       setOpen(false);
-      setTimeout(() => {
-        router.reload();
-      }, 3000); // 20 segundos
+      const indice = alunos.findIndex((alunoP) => alunoP.id === id);
+      const updatedAlunos = [...alunos];
+      updatedAlunos[indice] = values;
+      fnAluno(updatedAlunos);
+      console.log(updatedAlunos);
     } catch (e) {
       console.log(e);
     } finally {

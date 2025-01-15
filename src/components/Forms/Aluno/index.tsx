@@ -2,7 +2,6 @@
 import { Drawer, Button, Form, Input, notification } from "antd";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { api } from "@/services/api";
 
 export type AlunosType = {
@@ -36,6 +35,8 @@ export default function FormUser({
   alunosEspera,
   alunosMatriculados,
   turma,
+  fnAlunosEspera,
+  fnAlunosMatriculados,
 }: {
   quicksand: any;
   id: number;
@@ -43,10 +44,11 @@ export default function FormUser({
   capacidade: number;
   alunosMatriculados: AlunosType[];
   alunosEspera: AlunosType[];
+  fnAlunosMatriculados?: any;
+  fnAlunosEspera?: any;
 }) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
-
+  const [form] = Form.useForm();
   const onClose = () => {
     setOpen(false);
   };
@@ -59,19 +61,15 @@ export default function FormUser({
         values.matriculado = 1;
         await api.post(`v1/criarMatricula/${id}`, values);
         toast.success("Matrícula criada com sucesso");
-        setTimeout(() => {
-          // Executar ação após 20 segundos
-          // Por exemplo, redirecionar para uma página específica
-          router.reload();
-        }, 3000); // 20 segundos
+        setOpen(false);
+        form.resetFields();
+        fnAlunosEspera([...alunosEspera, values]);
       } else {
         await api.post(`v1/criarMatricula/${id}`, values);
         toast.success("Matrícula criada com sucesso");
-        setTimeout(() => {
-          // Executar ação após 20 segundos
-          // Por exemplo, redirecionar para uma página específica
-          router.reload();
-        }, 3000); // 20 segundos
+        setOpen(false);
+        form.resetFields();
+        fnAlunosMatriculados([...alunosMatriculados, values]);
       }
     } catch (e: any) {
       toast.error(e.response.data.erro);
@@ -88,7 +86,7 @@ export default function FormUser({
       setOpen(true);
     }
   };
-  const [form] = Form.useForm();
+
   return (
     <>
       <Button

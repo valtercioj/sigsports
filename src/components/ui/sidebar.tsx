@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-redeclare */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -5,8 +6,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { VariantProps, cva } from "class-variance-authority";
-import { PanelLeft } from "lucide-react";
-
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -260,11 +260,15 @@ const Sidebar = React.forwardRef<
   }
 );
 Sidebar.displayName = "Sidebar";
+type SidebarTriggerProps = React.ComponentProps<typeof Button> & {
+  triggered: boolean; // Agora `triggered` é controlado pelo componente pai
+  setTriggered: React.Dispatch<React.SetStateAction<boolean>>; // A função `setTriggered` é passada como prop
+};
 
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
-  React.ComponentProps<typeof Button>
->(({ className, onClick, ...props }, ref: any) => {
+  SidebarTriggerProps
+>(({ className, onClick, triggered, setTriggered, ...props }, ref) => {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -277,10 +281,11 @@ const SidebarTrigger = React.forwardRef<
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
+        setTriggered((triggered) => !triggered);
       }}
       {...props}
     >
-      <PanelLeft />
+      {triggered ? <PanelLeftClose /> : <PanelLeftOpen />}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

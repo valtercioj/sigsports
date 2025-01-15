@@ -159,7 +159,7 @@ export default function AppSidebar() {
               <SidebarMenuItem key={item.title}>
                 {item.title === "Criar Turma" ? (
                   <SidebarMenuButton asChild>
-                    <div className="ml-1">
+                    <div className="ml-1 hover:cursor-pointer hover:rounded-md hover:text-white-default">
                       <img src={`/${item.icon}.svg`} className="mr-1" />
                       <CriarTurma quicksand={quicksand} text="Criar Turma" />
                     </div>
