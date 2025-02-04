@@ -4,7 +4,8 @@
 import { setCookie } from "nookies";
 import { createContext, useState } from "react";
 import Router from "next/router";
-import { apiSuap, api2 } from "@/services/api";
+import axios from "axios";
+import { api2 } from "@/services/api";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -34,10 +35,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function signIn({ username, password }: SignInCredentials) {
     try {
-      const response = await apiSuap.post("autenticacao/token/", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://suap.ifrn.edu.br/api/token/pair",
+        {
+          username,
+          password,
+        }
+      );
 
       const response1 = await api2.get("/v1/usuarios/");
       const pessoas: UserType[] = await response1.data;

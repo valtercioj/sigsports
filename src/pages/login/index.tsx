@@ -4,7 +4,6 @@
 import { useContext, useState } from "react";
 import { GetServerSideProps } from "next";
 import { Button, Form, Input, notification } from "antd";
-
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -17,6 +16,7 @@ import {
 
 import { Quicksand, Bebas_Neue } from "next/font/google";
 import * as yup from "yup";
+import LoginSuap from "@/components/LoginSuap";
 import { AuthContext } from "@/contexts/AuthContext";
 
 const schema = yup
@@ -182,6 +182,7 @@ export default function Login() {
                   </Button>
                 </Form.Item>
               </Form>
+              <LoginSuap />
             </div>
           </div>
         </div>

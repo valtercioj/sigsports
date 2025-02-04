@@ -25,6 +25,7 @@
     "chart.js": "^4.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "globby": "^13.1.4",
     "hamburger-react": "^2.5.1",
     "install-peerdeps": "^3.0.3",
