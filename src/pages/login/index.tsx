@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @next/next/no-img-element */
-import { useContext, useState } from "react";
+// import { useContext, useState } from "react";
 import { GetServerSideProps } from "next";
-import { Button, Form, Input, notification } from "antd";
+// import { Button, Form, Input, notification } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,22 +15,22 @@ import {
 } from "react-icons/fa";
 
 import { Quicksand, Bebas_Neue } from "next/font/google";
-import * as yup from "yup";
+// import * as yup from "yup";
 import LoginSuap from "@/components/LoginSuap";
-import { AuthContext } from "@/contexts/AuthContext";
+// import { AuthContext } from "@/contexts/AuthContext";
 
-const schema = yup
-  .object({
-    username: yup
-      .string()
-      .required("Matricula obrigatória")
-      .matches(/^\d+$/, "A matrícula deve conter apenas números")
-      .min(14, "Matricula Invalida")
-      .max(14, "A matrícula deve ter máximo 14 dígitos"),
-    password: yup.string().required("Senha obrigatória"),
-  })
-  .required();
-type FormData = yup.InferType<typeof schema>;
+// const schema = yup
+//   .object({
+//     username: yup
+//       .string()
+//       .required("Matricula obrigatória")
+//       .matches(/^\d+$/, "A matrícula deve conter apenas números")
+//       .min(14, "Matricula Invalida")
+//       .max(14, "A matrícula deve ter máximo 14 dígitos"),
+//     password: yup.string().required("Senha obrigatória"),
+//   })
+//   .required();
+// type FormData = yup.InferType<typeof schema>;
 
 const quicksand = Quicksand({
   weight: "400",
@@ -44,29 +44,29 @@ const bebas_neue = Bebas_Neue({
   subsets: ["latin"],
 });
 export default function Login() {
-  const { signIn } = useContext(AuthContext);
+  // const { signIn } = useContext(AuthContext);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const onSubmit = async (data: FormData) => {
-    setIsLoading(true); // Ativa o carregamento
-    try {
-      const response = await signIn(data);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const onSubmit = async (data: FormData) => {
+  //   setIsLoading(true); // Ativa o carregamento
+  //   try {
+  //     const response = await signIn(data);
 
-      // Se a resposta contém a mensagem de erro, mostramos o toast
-      if (response && response.message) {
-        notification.error({
-          message: response.message, // Exibe a mensagem de erro no toast
-        });
-      }
-    } catch (error: any) {
-      // Caso ocorra um erro inesperado, mostramos um toast genérico
-      notification.error({
-        message: error?.response?.data?.detail || "Erro desconhecido",
-      });
-    } finally {
-      setIsLoading(false); // Desativa o carregamento, independentemente do resultado
-    }
-  };
+  //     // Se a resposta contém a mensagem de erro, mostramos o toast
+  //     if (response && response.message) {
+  //       notification.error({
+  //         message: response.message, // Exibe a mensagem de erro no toast
+  //       });
+  //     }
+  //   } catch (error: any) {
+  //     // Caso ocorra um erro inesperado, mostramos um toast genérico
+  //     notification.error({
+  //       message: error?.response?.data?.detail || "Erro desconhecido",
+  //     });
+  //   } finally {
+  //     setIsLoading(false); // Desativa o carregamento, independentemente do resultado
+  //   }
+  // };
 
   return (
     <div className={`scrollable ${quicksand.className} flex h-screen `}>
@@ -113,7 +113,7 @@ export default function Login() {
           <div className="flex h-full flex-col justify-around lg:p-0">
             <div className="my-auto mt-14  w-[321px] px-8">
               <Image src="/SIGSport.svg" alt="Logo" width={321} height={83} />
-              <Form onFinish={onSubmit} className="w-64 lg:w-96">
+              {/* <Form onFinish={onSubmit} className="w-64 lg:w-96">
                 <div className="mt-6 flex flex-col">
                   {" "}
                   <label
@@ -181,7 +181,7 @@ export default function Login() {
                     ENTRAR
                   </Button>
                 </Form.Item>
-              </Form>
+              </Form> */}
               <LoginSuap />
             </div>
           </div>
