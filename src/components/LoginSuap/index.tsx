@@ -12,16 +12,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex mt-20 flex-col items-center justify-center">
-      <h1 className="mb-4 text-2xl font-bold">Login com SUAP</h1>
-      <button
-        type="button"
-        onClick={LoginWithSuap}
-        className="text-white flex items-center justify-center rounded-lg bg-white-default px-6 py-3 font-semibold shadow-md transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-      >
-        <img src="/suap.jpeg" alt="Google" className="mr-2 h-6 w-6" />
-        Entrar com o Suap
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={LoginWithSuap}
+      className="mt-10 h-[57.6px] w-full rounded-2xl border-none bg-[#2ED2BA] text-base font-bold leading-5 text-black"
+    >
+      Entrar com o Suap
+    </button>
   );
 }

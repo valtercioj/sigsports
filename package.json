@@ -40,6 +40,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "react-icons": "^4.12.0",
+    "react-loading-indicators": "^1.0.0",
     "react-query": "^3.39.3",
     "react-toastify": "^9.1.2",
     "remask": "^1.2.2",
