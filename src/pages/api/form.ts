@@ -50,4 +50,22 @@ api_form.createUser = async (data: any) => {
   }
 };
 
+api_form.getDataSuap = async (token: string) => {
+  try {
+    const response = await api_form.get(
+      "https://suap.ifrn.edu.br/api/v2/minhas-informacoes/meus-dados/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    if (error?.response?.status === 401) {
+      throw error;
+    }
+  }
+};
+
 export { api_form };

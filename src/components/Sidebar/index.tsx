@@ -129,6 +129,11 @@ export default function AppSidebar() {
       url: "/usuarios",
       icon: "usuarios",
     },
+    {
+      title: "Professores",
+      url: "/professores",
+      icon: "usuarios",
+    },
   ];
 
   const steps1: TourProps["steps"] = steps.slice(0, 4);
@@ -136,6 +141,9 @@ export default function AppSidebar() {
   function handleLogout() {
     destroyCookie(null, "sig-token");
     destroyCookie(null, "sig-refreshToken");
+    destroyCookie(null, "matricula");
+    destroyCookie(null, "nome");
+    destroyCookie(null, "foto");
     router.push("/login");
   }
 
