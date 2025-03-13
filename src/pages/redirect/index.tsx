@@ -1,4 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
+
+"use client";
+
 import { FourSquare } from "react-loading-indicators";
 import { useRouter } from "next/router";
 import { setCookie } from "nookies";
@@ -11,13 +14,30 @@ export type Data = {
   url_foto_150x200: string;
 };
 
+export type User = {
+  id: number;
+  matricula: string;
+  adm: number;
+  tour: number;
+};
+
 export default function Redirect() {
   const router = useRouter();
 
   const getData = async (token: string, expiresIn: string) => {
     try {
       const response = await api.getDataSuap(token);
+      const response1 = await api.getAllUsers();
+      const users: User[] = response1.data;
       const dados: Data = response.data;
+      const user = users.filter((u) => u.matricula === dados.matricula);
+      if (user.length === 0) {
+        setCookie(null, "notificationMensage", `1`, {
+          maxAge: 10,
+        });
+        router.push("/login");
+        return;
+      }
       setCookie(undefined, "sig-token", token, {
         maxAge: Number(expiresIn),
       });
@@ -28,6 +48,15 @@ export default function Redirect() {
         maxAge: Number(expiresIn), // 30 dias
       });
       setCookie(null, "foto", `${dados?.url_foto_150x200}`, {
+        maxAge: Number(expiresIn), // 30 dias
+      });
+      setCookie(null, "adm", `${user[0]?.adm}`, {
+        maxAge: Number(expiresIn), // 30 dias
+      });
+      setCookie(null, "Tour", `${user[0]?.tour}`, {
+        maxAge: Number(expiresIn), // 30 dias
+      });
+      setCookie(null, "id", `${user[0]?.id}`, {
         maxAge: Number(expiresIn), // 30 dias
       });
       router.push("/dashboard");
