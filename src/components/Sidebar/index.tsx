@@ -181,7 +181,11 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
                       className="ml-1 hover:cursor-pointer hover:rounded-md hover:text-white-default"
                     >
                       <img src={`/${item.icon}.svg`} className="mr-1" />
-                      <CriarTurma quicksand={quicksand} text="Criar Turma" />
+                      <CriarTurma
+                        quicksand={quicksand}
+                        text="Criar Turma"
+                        isMenu
+                      />
                     </div>
                   </SidebarMenuButton>
                 )}

@@ -37,9 +37,11 @@ export interface Cat {
 export default function FormTurma({
   quicksand,
   text,
+  isMenu,
 }: {
   quicksand: any;
   text: string;
+  isMenu: boolean;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -127,7 +129,15 @@ export default function FormTurma({
 
   return (
     <>
-      <button type="button" onClick={showDrawer}>
+      <button
+        type="button"
+        onClick={showDrawer}
+        className={
+          !isMenu
+            ? "flex h-[69px] w-full items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-700 text-lg font-bold text-white-default shadow-md transition-colors duration-300 hover:scale-105 hover:cursor-pointer"
+            : ""
+        }
+      >
         {text}
       </button>
       <Drawer title="Criar Turma" onClose={onClose} open={open}>

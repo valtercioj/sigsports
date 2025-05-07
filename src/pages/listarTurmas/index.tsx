@@ -58,7 +58,11 @@ export default function ListarTurmas({
           <div
             className={` ${montserrat.className} w-full text-base font-medium `}
           >
-            <CriarTurma quicksand={quicksand} text="Criar Turma Manualmente" />
+            <CriarTurma
+              quicksand={quicksand}
+              text="Criar Turma Manualmente"
+              isMenu
+            />
           </div>
         </div>
       </Menu.Item>
@@ -131,7 +135,7 @@ export default function ListarTurmas({
           </div>
         </div>
         <div
-          className={`${quicksand.className} mr-auto mt-14 grid gap-x-12 gap-y-10 rounded-lg md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 `}
+          className={`${quicksand.className} mr-auto mt-14 grid gap-x-12 gap-y-10 rounded-lg md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 `}
         >
           {filteredTurmas.map((turma) => (
             <Card
