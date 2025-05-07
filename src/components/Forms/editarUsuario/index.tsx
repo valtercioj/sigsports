@@ -46,20 +46,18 @@ export default function FormUser({
   const cookies = parseCookies();
   const onFinish = async (values: Aluno) => {
     setLoading(true);
-    const { adminC } = cookies;
+    const { matricula } = cookies;
     try {
       const user = { ...values, adm: admin ? 1 : 0, tour: 0 };
       await api.updateUser(usuario.id, user);
       toast.success("Usuário editado com sucesso");
       setOpen(false);
-      setTimeout(() => {
-        if (adminC !== `${values.administrador}`) {
-          setCookie(undefined, "admin", `0`);
-          router.push("/dashboard");
-        } else {
-          router.reload();
-        }
-      }, 3000); // 20 segundos
+      if (matricula === user.matricula) {
+        setCookie(undefined, "adm", `${user.adm}`);
+
+        router.reload();
+      }
+      router.reload();
     } catch (e) {
       console.log(e);
     } finally {

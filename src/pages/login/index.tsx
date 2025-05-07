@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 // import { useContext, useState } from "react";
 import { GetServerSideProps } from "next";
-// import { Button, Form, Input, notification } from "antd";
+import { notification } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -16,6 +16,7 @@ import {
 
 import { Quicksand, Bebas_Neue } from "next/font/google";
 // import * as yup from "yup";
+import { useEffect } from "react";
 import LoginSuap from "@/components/LoginSuap";
 // import { AuthContext } from "@/contexts/AuthContext";
 
@@ -43,7 +44,7 @@ const bebas_neue = Bebas_Neue({
   style: "normal",
   subsets: ["latin"],
 });
-export default function Login() {
+export default function Login({ permission }: { permission: boolean }) {
   // const { signIn } = useContext(AuthContext);
 
   // const [isLoading, setIsLoading] = useState(false);
@@ -67,6 +68,18 @@ export default function Login() {
   //     setIsLoading(false); // Desativa o carregamento, independentemente do resultado
   //   }
   // };
+
+  const notificationMensage = () => {
+    if (permission) {
+      notification.error({
+        message: "Proibido",
+        description: "Você não tem permissão para acessar esse sistema",
+      });
+    }
+  };
+  useEffect(() => {
+    notificationMensage();
+  }, []);
 
   return (
     <div className={`scrollable ${quicksand.className} flex h-screen `}>
@@ -204,6 +217,8 @@ export default function Login() {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const token = req.cookies["sig-token"];
+  const { notificationMensage } = req.cookies;
+  const permission = notificationMensage === "1";
   if (token) {
     return {
       redirect: {
@@ -213,6 +228,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   return {
-    props: {},
+    props: {
+      permission,
+    },
   };
 };

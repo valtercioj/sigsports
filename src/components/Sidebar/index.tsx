@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-bind */
@@ -12,7 +13,6 @@ import { Tour, ConfigProvider } from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
 import type { TourProps } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import { AuthContext } from "@/contexts/AuthContext";
 import CriarTurma from "../Forms/CriarTurma";
 import { api2 } from "@/services/api";
 import {
@@ -32,8 +32,7 @@ const quicksand = Quicksand({
   subsets: ["latin"],
 });
 
-export default function AppSidebar() {
-  const { id } = React.useContext(AuthContext);
+export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
   const router = useRouter();
   const cookies = parseCookies();
   const tour = cookies.Tour;
@@ -45,7 +44,7 @@ export default function AppSidebar() {
   const ref2 = React.useRef(null);
   const ref3 = React.useRef(null);
   const ref4 = React.useRef(null);
-
+  const ref5 = React.useRef(null);
   async function setTour() {
     try {
       await api2.put(`v1/usuarios/update/${id}/`, {
@@ -59,44 +58,28 @@ export default function AppSidebar() {
     }
   }
 
+  const condintions = (title: string) => {
+    if (title === "Criar Turma") {
+      return ref1;
+    }
+    if (title === "Listar Turmas") {
+      return ref2;
+    }
+    if (title === "Sugestões") {
+      return ref3;
+    }
+    if (title === "Empréstimo") {
+      return ref4;
+    }
+    if (title === "Usuários") {
+      return ref5;
+    }
+  };
   React.useEffect(() => {
     setTimeout(() => {
       setOpenTour(tour === "1");
     }, 2000);
   }, [tour]);
-
-  const steps: TourProps["steps"] = [
-    {
-      title: "Criar Turma",
-      description: "Formulário de criação de uma turma no sistema",
-      target: () => ref.current,
-      arrow: true,
-    },
-    {
-      title: "Listar Turmas",
-      description: "Listagem de todas as turmas do sistema",
-      placement: "right",
-      target: () => ref1.current,
-    },
-    {
-      title: "Sugestões",
-      description: "Sugestões de esportes escolhidos pelos alunos",
-      placement: "top",
-      target: () => ref2.current,
-    },
-    {
-      title: "Empréstimo",
-      description: "Formulário de empréstimo de materiais",
-      placement: "right",
-      target: () => ref3.current,
-    },
-    {
-      title: "Usuários",
-      description: "Listagem de todos os usuários do sistema",
-      placement: "top",
-      target: () => ref4.current,
-    },
-  ];
 
   const items = [
     {
@@ -129,10 +112,32 @@ export default function AppSidebar() {
       url: "/usuarios",
       icon: "usuarios",
     },
+  ];
+
+  const steps: TourProps["steps"] = [
     {
-      title: "Professores",
-      url: "/professores",
-      icon: "usuarios",
+      title: "Criar Turma",
+      description: "Formulário de criação de uma turma no sistema",
+      target: () => ref1.current, // Usando o ref no alvo
+      arrow: true,
+    },
+    {
+      title: "Listar Turmas",
+      description: "Listagem de todas as turmas do sistema",
+      target: () => ref2.current, // Usando o ref no alvo
+      placement: "right",
+    },
+    {
+      title: "Sugestões",
+      description: "Sugestões de esportes escolhidos pelos alunos",
+      target: () => ref3.current, // Usando o ref no alvo
+      placement: "top",
+    },
+    {
+      title: "Empréstimo",
+      description: "Formulário de empréstimo de materiais",
+      target: () => ref4.current, // Usando o ref no alvo
+      placement: "right",
     },
   ];
 
@@ -144,6 +149,9 @@ export default function AppSidebar() {
     destroyCookie(null, "matricula");
     destroyCookie(null, "nome");
     destroyCookie(null, "foto");
+    destroyCookie(null, "adm");
+    destroyCookie(null, "Tour");
+    destroyCookie(null, "id");
     router.push("/login");
   }
 
@@ -152,6 +160,7 @@ export default function AppSidebar() {
       <Sidebar className="bg-gradient-to-tl from-green-300 to-green-900 text-gray-100 md:bg-gradient-to-tl md:from-green-300 md:to-green-900">
         <SidebarHeader className="p-4">
           <Link
+            ref={ref}
             href="/dashboard"
             className="text-white flex items-center space-x-2"
           >
@@ -165,17 +174,47 @@ export default function AppSidebar() {
           <SidebarMenu>
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
-                {item.title === "Criar Turma" ? (
+                {item.title === "Criar Turma" && (
                   <SidebarMenuButton asChild>
-                    <div className="ml-1 hover:cursor-pointer hover:rounded-md hover:text-white-default">
+                    <div
+                      ref={condintions(item.title)}
+                      className="ml-1 hover:cursor-pointer hover:rounded-md hover:text-white-default"
+                    >
                       <img src={`/${item.icon}.svg`} className="mr-1" />
-                      <CriarTurma quicksand={quicksand} text="Criar Turma" />
+                      <CriarTurma
+                        quicksand={quicksand}
+                        text="Criar Turma"
+                        isMenu
+                      />
                     </div>
                   </SidebarMenuButton>
-                ) : (
+                )}
+                {item.title === "Usuários" && adm && (
                   <SidebarMenuButton asChild>
-                    <a
+                    <Link
                       href={item.url}
+                      ref={condintions(item.title)}
+                      className={`hover:rounded-md hover:text-white-default ${
+                        router.pathname === item.url
+                          ? "bg-green-300 text-gray-100"
+                          : "hover:text-white text-gray-100"
+                      }`}
+                    >
+                      <div
+                        className={` fill-white-default text-white-default  `}
+                      >
+                        <img src={`/${item.icon}.svg`} />
+                      </div>
+
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                )}
+                {item.title !== "Criar Turma" && item.title !== "Usuários" && (
+                  <SidebarMenuButton asChild>
+                    <Link
+                      href={item.url}
+                      ref={condintions(item.title)}
                       className={`hover:rounded-md hover:text-white-default ${
                         router.pathname === item.url
                           ? "bg-green-300 text-gray-100"
@@ -190,13 +229,13 @@ export default function AppSidebar() {
                         <div
                           className={`${
                             item.icon === "emprestimo" && "ml-1"
-                          } fill-white-default text-white-default `}
+                          } fill-white-default text-white-default  `}
                         >
                           <img src={`/${item.icon}.svg`} />
                         </div>
                       )}
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 )}
               </SidebarMenuItem>
