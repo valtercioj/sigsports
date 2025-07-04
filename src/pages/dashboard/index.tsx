@@ -75,14 +75,13 @@ const IndexPage = ({
         return {
           ...turma,
           vagas_restantes: aluno.vagas_restantes,
-          alunosMatriculados: turma.vagas - aluno.vagas_restantes,
+          alunosMatriculados: turma.vagas - aluno.vagas_restantes > turma.vagas ? turma.vagas : turma.vagas - aluno.vagas_restantes,
           vagaDisponivel: aluno.vagas_restantes > 0,
         };
       }
       return null;
     })
     .filter((turma): turma is TurmaComAlunos => turma !== null); // Removendo nulls
-
   const turmasAlunosOrdenadas: TurmaComAlunos[] = turmasComAlunos.sort(
     (a, b) => {
       // Primeiro, ordena por alunos matriculados (do maior para o menor)
@@ -156,17 +155,17 @@ const IndexPage = ({
         {
           name: "Vagas Preenchidas",
           titulo: el.nomeTurma,
-          value: el.alunosMatriculados,
+          value: el.alunosMatriculados > el.vagas ? el.vagas : el.alunosMatriculados,
         },
         {
           name: "Vagas Totais",
           titulo: el.nomeTurma,
-          value: el.vagas,
+          value: el.vagas ,
         }
       );
     }
   });
-
+console.log(equivalentesTodos);
   const config1: any = {
     data: data1,
     xField: "titulo",

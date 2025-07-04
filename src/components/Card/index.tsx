@@ -195,7 +195,7 @@ export default function Card({
           </span>
         </Dropdown>
       </div>
-      <div className="ml-5 mt-4 flex h-[calc(300px-51px-1rem)] flex-col justify-between gap-y-4 font-Montserrat text-sm font-medium">
+      <div className="ml-5 mt-4 flex h-[calc(320px-51px-1rem)] flex-col justify-between gap-y-4 font-Montserrat text-sm font-medium">
         {" "}
         {/* Ajuste a altura aqui */}
         <div className="flex items-center">
