@@ -118,7 +118,8 @@ export default function CardModalidade({
         <p
           className={`${quicksand.className} mb-6 w-full text-base font-medium text-green-bg`}
         >
-          Vagas Disponíveis: {turma.vagasRestantes}
+          Vagas Disponíveis:{" "}
+          {turma.vagasRestantes <= 0 ? "Não há vagas" : turma.vagasRestantes}
         </p>
         <p
           className={`${quicksand.className} mb-6 w-full text-base font-medium text-green-bg`}
