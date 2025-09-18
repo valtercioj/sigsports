@@ -97,8 +97,8 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
       icon: <Users className="h-5 w-5" />,
     },
     {
-      title: "Conograma",
-      url: "/professor/conograma",
+      title: "Cronograma",
+      url: "/professor/cronograma",
       icon: <Calendar className="h-5 w-5" />,
     },
   ];
