@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "dev"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "code-version"
+    schedule:
+      interval: "daily"
+
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "dev"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    target-branch: "dev"
+    schedule:
+      interval: "weekly"

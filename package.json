@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:deprecated": "eslint --no-eslintrc --config .eslintrc.deprecation.cjs --ext .ts,.tsx src"
+    "deps:check": "ncu",
+    "deps:update": "ncu -u",
+    "deps:update-all": "ncu -u --target latest",
+    "deps:doctor": "ncu --doctor --doctorTest 'npm run build'"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
