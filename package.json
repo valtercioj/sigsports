@@ -31,7 +31,7 @@
     "install-peerdeps": "^3.0.3",
     "lucide-react": "^0.469.0",
     "moment": "^2.29.4",
-    "next": "13.3.0",
+    "next": "14.2.32",
     "nookies": "^2.5.2",
     "pdfmake": "^0.2.7",
     "postcss": "8.4.21",
