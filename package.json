@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deps:check": "ncu",
+    "deps:update": "ncu -u",
+    "deps:update-all": "ncu -u --target latest",
+    "deps:doctor": "ncu --doctor --doctorTest 'npm run build'"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
