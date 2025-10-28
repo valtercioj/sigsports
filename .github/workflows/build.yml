@@ -33,9 +33,9 @@ jobs:
       - name: 📦 Instalar dependências atualizadas
         run: npm install
 
-      - name: Run lint
-        run: npm run lint
-        continue-on-error: true
+      - name: Check deprecated APIs
+        run: npm run lint:deprecated
+        continue-on-error: false
 
       - name: Build application
         run: npm run build

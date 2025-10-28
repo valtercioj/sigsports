@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:deprecated": "eslint --no-eslintrc --config .eslintrc.deprecation.cjs --ext .ts,.tsx src"
     "deps:check": "ncu",
     "deps:update": "ncu -u",
     "deps:update-all": "ncu -u --target latest",
@@ -68,6 +69,7 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "12.2.3",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.1.0",
