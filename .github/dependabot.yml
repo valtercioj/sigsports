@@ -1,42 +1,19 @@
 version: 2
 updates:
-  # Monitorar dependências npm
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "dev"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 10
-    pull-request-branch-name:
-      separator: "/"
-    reviewers:
-      - "valtercioj"
-    assignees:
-      - "valtercioj"
-    labels:
-      - "dependencies"
-      - "npm"
-    commit-message:
-      prefix: "chore"
-      prefix-scope: "deps"
-      include: "scope"
-    allow:
-      - dependency-type: "all"
-    versioning-strategy: "auto"
-    rebase-strategy: "auto"
+      interval: daily
 
-  # Monitorar GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "dev"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "04:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "github-actions"
-    commit-message:
-      prefix: "ci"
-      include: "scope"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    target-branch: "dev"
+    schedule:
+      interval: "weekly"
