@@ -4,7 +4,14 @@ updates:
     directory: "/"
     target-branch: "dev"
     schedule:
-      interval: daily
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "code-version"
+    schedule:
+      interval: "daily"
+
 
   - package-ecosystem: "github-actions"
     directory: "/"
