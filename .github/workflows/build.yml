@@ -28,11 +28,7 @@ jobs:
         run: npm install -g npm-check-updates
 
       - name: 📊 Listar atualizações disponíveis
-        run: |
-          echo "## 📋 Atualizações Disponíveis" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          ncu --doctor --doctorTest "npm test" || true
-          echo "" >> $GITHUB_STEP_SUMMARY
+        run: npm run deps:check
 
       - name: 📦 Instalar dependências atualizadas
         run: npm install
