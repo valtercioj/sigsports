@@ -1,0 +1,77 @@
+{
+  "name": "SIGSports - Next.js Development",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "formulahendry.auto-rename-tag",
+        "ms-vscode.vscode-typescript-next",
+        "styled-components.vscode-styled-components",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "tailwindCSS.experimental.classRegex": [
+          ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+          ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+        ]
+      }
+    }
+  },
+
+  "forwardPorts": [3000],
+  
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js Application",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "npm install",
+
+  "postStartCommand": "echo 'Dev container ready! Run npm run dev to start the development server.'",
+
+  "remoteUser": "node",
+
+  "mounts": [
+    "source=${localWorkspaceFolder}/.next,target=${containerWorkspaceFolder}/.next,type=bind,consistency=cached"
+  ],
+
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+
+  "runArgs": [
+    "--init"
+  ]
+}
