@@ -24,8 +24,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: 🔍 Instalar npm-check-updates
+        run: npm install -g npm-check-updates
+
+      - name: 📊 Listar atualizações disponíveis
+        run: npm run deps:check
+
+      - name: 📦 Instalar dependências atualizadas
+        run: npm install
 
       - name: Check deprecated APIs
         run: npm run lint:deprecated
