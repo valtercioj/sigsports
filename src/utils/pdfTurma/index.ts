@@ -1,9 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import moment from "moment";
 import "moment/locale/pt-br";
+
+// Configurar as fontes do pdfMake
+(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs || pdfFonts;
 
 const date = moment().locale("pt-br").format("DD [de] MMMM [de] YYYY");
 
@@ -106,8 +109,6 @@ export function tableAlunos(alunos: AlunosType[]) {
 }
 
 export function pdfTurma(turma: TurmaType, alunos: AlunosType[]) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
   const details = [
     {
       table: {

@@ -1,7 +1,10 @@
 /* eslint-disable no-plusplus */
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+
+// Configurar as fontes do pdfMake
+(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs || pdfFonts;
 
 export type TurmaType = {
   id: number;
@@ -102,8 +105,6 @@ export function tableAlunos(alunos: AlunosType[]) {
 }
 
 export function pdfTurma(turma: TurmaType, alunos: AlunosType[]) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
   const details = [
     {
       table: {
