@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Result } from "antd";
 import { useRouter } from "next/router";
+
 export default function NotFound() {
   const router = useRouter();
   const handleBackHome = () => {

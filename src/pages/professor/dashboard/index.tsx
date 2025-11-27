@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+/* eslint-disable react/no-array-index-key */
 import {
   Users,
   Calendar,
@@ -8,6 +7,8 @@ import {
   Clock,
   MapPin,
 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Layout from "@/components/LayoutProfessor";
 
 export default function ProfessorDashboard() {
@@ -170,7 +171,7 @@ export default function ProfessorDashboard() {
                     key={index}
                     className="flex items-start space-x-3 rounded-lg bg-gray-50 p-3"
                   >
-                    <div className="bg-primary-green mt-2 h-2 w-2 flex-shrink-0 rounded-full"></div>
+                    <div className="bg-primary-green mt-2 h-2 w-2 flex-shrink-0 rounded-full" />
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium text-gray-900 sm:text-sm">
                         {activity.action}

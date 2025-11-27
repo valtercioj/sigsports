@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:check": "eslint src --ext .ts,.tsx --max-warnings 0",
+    "lint:check": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",

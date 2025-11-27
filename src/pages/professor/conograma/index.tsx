@@ -2,13 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { api } from "@/services/api";
-import { Badge } from "@/components/ui/badge";
-import { Spin, notification } from "antd";
-import { Select } from "antd";
-const { Option } = Select;
+import { Spin, notification, Select } from "antd";
 import {
   Calendar,
   Clock,
@@ -18,7 +12,13 @@ import {
   ChevronRight,
   Filter,
 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { api } from "@/services/api";
+import { Badge } from "@/components/ui/badge";
 import Layout from "@/components/LayoutProfessor";
+
+const { Option } = Select;
 interface Turma {
   id: number;
   nomeTurma: string;
@@ -508,12 +508,12 @@ export default function Cronograma({ professorId }: { professorId: number }) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   // Forçando erro 500
-  //throw new Error("Erro forçado para teste da página 500");
+  // throw new Error("Erro forçado para teste da página 500");
 
   // Código original (não será executado)
 
   const token = req.cookies["sig-token"];
-  const matricula = req.cookies["matricula"];
+  const { matricula } = req.cookies;
   if (!token) {
     return {
       redirect: {

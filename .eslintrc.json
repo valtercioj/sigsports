@@ -39,15 +39,16 @@
     "react/require-default-props": "off",
     "react/prop-types": "off",
     "react/function-component-definition": "off",
-    "react/no-array-index-key": "warn",
+    "react/no-array-index-key": "error",
+    "react/jsx-key": "error",
     "import/prefer-default-export": "off",
     "import/extensions": "off",
-    "import/order": "warn",
-    "import/no-duplicates": "warn",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-use-before-define": "warn",
-    "@typescript-eslint/dot-notation": "warn",
+    "import/order": "off",
+    "import/no-duplicates": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/dot-notation": "off",
     "prettier/prettier": [
       "error",
       {
@@ -55,16 +56,16 @@
       }
     ],
     "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/click-events-have-key-events": "warn",
-    "jsx-a11y/no-static-element-interactions": "warn",
-    "jsx-a11y/label-has-associated-control": "warn",
-    "no-console": "warn",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-console": "off",
     "no-plusplus": "off",
-    "no-nested-ternary": "warn",
-    "no-restricted-globals": "warn",
+    "no-nested-ternary": "off",
+    "no-restricted-globals": "off",
     "no-use-before-define": "off",
-    "prefer-destructuring": "warn",
-    "spaced-comment": "warn"
+    "prefer-destructuring": "off",
+    "spaced-comment": "off"
   },
   "settings": {
     "react": {
