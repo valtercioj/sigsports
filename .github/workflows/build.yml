@@ -33,6 +33,12 @@ jobs:
       - name: 📦 Instalar dependências atualizadas
         run: npm install
 
+      - name: 🎨 Verificar padrão de codificação (ESLint + Airbnb)
+        run: npm run lint:check
+
+      - name: 💅 Verificar formatação (Prettier)
+        run: npm run format:check
+
       - name: Check deprecated APIs
         run: npm run lint:deprecated
         continue-on-error: false
