@@ -40,9 +40,26 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: 📐 Instalar PlantUML e dependências
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre graphviz
+          wget -q https://github.com/plantuml/plantuml/releases/download/v1.2024.3/plantuml-1.2024.3.jar -O /tmp/plantuml.jar
+
+      - name: 🖼️ Gerar imagem do diagrama de classes UML
+        run: |
+          java -jar /tmp/plantuml.jar -tpng docs/diagrams/class-diagram.puml -o .
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: .next/
           retention-days: 7
+
+      - name: 📤 Upload diagrama de classes UML
+        uses: actions/upload-artifact@v4
+        with:
+          name: uml-class-diagram
+          path: docs/diagrams/
+          retention-days: 30

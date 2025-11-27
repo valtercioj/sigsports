@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+
+// Configurar as fontes do pdfMake
+(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs || pdfFonts;
 
 export type TurmaType = {
   id: number;
@@ -31,8 +34,6 @@ export function declaracao(
   nomeTurma: string,
   turno: string
 ) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
   const details = [
     {
       table: {

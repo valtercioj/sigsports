@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:deprecated": "eslint --no-eslintrc --config .eslintrc.deprecation.cjs --ext .ts,.tsx src"
+    "lint:deprecated": "eslint --no-eslintrc --config .eslintrc.deprecation.cjs --ext .ts,.tsx src",
     "deps:check": "ncu",
     "deps:update": "ncu -u",
     "deps:update-all": "ncu -u --target latest",
-    "deps:doctor": "ncu --doctor --doctorTest 'npm run build'"
+    "deps:doctor": "ncu --doctor --doctorTest 'npm run build'",
+    "uml:generate": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.puml",
+    "uml:png": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.png -A"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
@@ -76,6 +78,12 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.1.12"
+    "prettier-plugin-tailwindcss": "^0.1.12",
+    "tplant": "^3.1.0"
+  },
+  "overrides": {
+    "tplant": {
+      "node-plantuml": "npm:empty-npm-package@1.0.0"
+    }
   }
 }
