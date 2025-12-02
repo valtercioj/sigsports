@@ -83,6 +83,7 @@
     "eslint-plugin-prettier": "^4.1.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jscpd": "^4.0.5",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.12",
     "tplant": "^3.1.0"

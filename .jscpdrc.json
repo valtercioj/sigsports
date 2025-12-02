@@ -1,0 +1,22 @@
+{
+  "threshold": 50,
+  "minLines": 10,
+  "minTokens": 10,
+  "reporters": ["console"],
+  "extensions": [
+    {
+      "name": "typescript",
+      "filenames": ["*.ts", "*.tsx"]
+    }
+  ],
+  "ignore": [
+    "node_modules/**",
+    ".next/**",
+    "build/**",
+    "dist/**",
+    ".git/**",
+    ".github/**",
+    "public/**",
+    "docs/**"
+  ]
+}
