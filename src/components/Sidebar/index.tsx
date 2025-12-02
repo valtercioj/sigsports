@@ -72,7 +72,40 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
     setTimeout(() => {
       setOpenTour(tour === "1");
     }, 2000);
-  });
+  }, [tour]);
+
+  const items = [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: "dashboard",
+    },
+    {
+      title: "Criar Turma",
+      url: "",
+      icon: "criar_turma",
+    },
+    {
+      title: "Listar Turmas",
+      url: "/listarTurmas",
+      icon: "listar",
+    },
+    {
+      title: "Sugestões",
+      url: "/sugestoes",
+      icon: "sugestoes",
+    },
+    {
+      title: "Empréstimo",
+      url: "/emprestimo",
+      icon: "emprestimo",
+    },
+    {
+      title: "Usuários",
+      url: "/usuarios",
+      icon: "usuarios",
+    },
+  ];
 
   const handleLogout = handleLogoutUtil(router);
 
@@ -98,7 +131,11 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
                 {item.title === "Criar Turma" && (
                   <SidebarMenuButton asChild>
                     <div
-                      ref={condintions(item.title)}
+                      ref={
+                        condintions(
+                          item.title
+                        ) as React.RefObject<HTMLDivElement>
+                      }
                       className="ml-1 hover:cursor-pointer hover:rounded-md hover:text-white-default"
                     >
                       <img src={`/${item.icon}.svg`} className="mr-1" />
@@ -114,7 +151,11 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
                   <SidebarMenuButton asChild>
                     <Link
                       href={item.url}
-                      ref={condintions(item.title)}
+                      ref={
+                        condintions(
+                          item.title
+                        ) as React.RefObject<HTMLAnchorElement>
+                      }
                       className={`hover:rounded-md hover:text-white-default ${
                         router.pathname === item.url
                           ? "bg-green-300 text-gray-100"
@@ -135,7 +176,11 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
                   <SidebarMenuButton asChild>
                     <Link
                       href={item.url}
-                      ref={condintions(item.title)}
+                      ref={
+                        condintions(
+                          item.title
+                        ) as React.RefObject<HTMLAnchorElement>
+                      }
                       className={`hover:rounded-md hover:text-white-default ${
                         router.pathname === item.url
                           ? "bg-green-300 text-gray-100"

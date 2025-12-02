@@ -3,11 +3,11 @@ import React from "react";
 import { TourProps } from "antd";
 
 export const useSidebarTour = (refs: {
-  ref1: React.RefObject<HTMLDivElement>;
-  ref2: React.RefObject<HTMLDivElement>;
-  ref3: React.RefObject<HTMLDivElement>;
-  ref4: React.RefObject<HTMLDivElement>;
-  ref5: React.RefObject<HTMLDivElement>;
+  ref1: React.RefObject<HTMLElement>;
+  ref2: React.RefObject<HTMLElement>;
+  ref3: React.RefObject<HTMLElement>;
+  ref4: React.RefObject<HTMLElement>;
+  ref5: React.RefObject<HTMLElement>;
 }) => {
   const { ref1, ref2, ref3, ref4, ref5 } = refs;
 

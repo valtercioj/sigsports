@@ -120,7 +120,11 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
                 <SidebarMenuButton asChild>
                   <Link
                     href={item.url}
-                    ref={condintions(item.title)}
+                    ref={
+                      condintions(
+                        item.title
+                      ) as React.RefObject<HTMLAnchorElement>
+                    }
                     className={`hover:rounded-md hover:text-white-default ${
                       router.pathname === item.url
                         ? "bg-green-300 text-gray-100"
