@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { api } from "@/services/api";
-import { formatHour } from "@/utils/formUtils";
 import { handleHourChange, formatHour } from "@/utils/formUtils";
 
 interface FormValues {
@@ -76,20 +75,7 @@ export default function FormTurma({
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const formatHour = (value: string) => {
-    // Remove tudo que não for dígito
-    const cleaned = value.replace(/\D/g, "");
-
-    // Aplica a máscara
-    let formattedValue = "";
-    if (cleaned.length <= 2) {
-      formattedValue = cleaned;
-    } else {
-      formattedValue = `${cleaned.slice(0, 2)}:${cleaned.slice(2, 4)}`;
-    }
-
-    return formattedValue;
-  };
+  // formatHour is imported from "@/utils/formUtils"; local declaration removed to avoid duplicate identifier
 
   useEffect(() => {
     if (open) {
@@ -97,7 +83,7 @@ export default function FormTurma({
     }
   }, [open]);
 
-  const handleHourChangeField = handleHourChange("horarioInicial", form);
+  const handleHourChangeField = handleHourChange("horarioInicial");
 
   const onFinish = async (values: any) => {
     setLoading(true);
