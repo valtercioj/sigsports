@@ -17,7 +17,8 @@
     "deps:update-all": "ncu -u --target latest",
     "deps:doctor": "ncu --doctor --doctorTest 'npm run build'",
     "uml:generate": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.puml",
-    "uml:png": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.png -A"
+    "uml:png": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.png -A",
+    "duplicate:check": "node check-duplicates.js"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
