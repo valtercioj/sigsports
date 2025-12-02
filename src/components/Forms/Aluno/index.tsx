@@ -3,30 +3,7 @@ import { Drawer, Button, Form, Input, notification } from "antd";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
-
-export type AlunosType = {
-  id: number;
-  nomeAluno: string;
-  matricula: string;
-  contato: string;
-  curso: string;
-  matriculado: number;
-};
-
-export type TurmaType = {
-  id: number;
-  nomeTurma: "string";
-  modalidade: number;
-  categoria: number;
-  vagas: number;
-  professor: "string";
-  genero: "string";
-  dias: "string";
-  horarioInicial: "string";
-  horarioFinal: "string";
-  turno: "string";
-  espaco: "string";
-};
+import { AlunosType, TurmaType } from "@/utils/typeTurma";
 
 export default function FormUser({
   quicksand,

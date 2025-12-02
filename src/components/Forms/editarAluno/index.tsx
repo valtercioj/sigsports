@@ -4,14 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { TbPencil } from "react-icons/tb";
 import { api } from "@/services/api";
-
-type Aluno = {
-  id: number;
-  nomeAluno: string;
-  matricula: string;
-  curso: string;
-  contato: string;
-};
+import { AlunosType } from "@/utils/typeTurma";
 
 export default function FormUser({
   quicksand,
@@ -20,8 +13,8 @@ export default function FormUser({
   alunos,
 }: {
   quicksand: any;
-  aluno: Aluno[];
-  alunos: Aluno[];
+  aluno: AlunosType[];
+  alunos: AlunosType[];
   fnAluno?: any;
 }) {
   const [form] = Form.useForm();
