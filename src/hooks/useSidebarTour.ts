@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+import React from "react";
 import { TourProps } from "antd";
 
 export const useSidebarTour = (refs: {
@@ -31,25 +33,25 @@ export const useSidebarTour = (refs: {
     {
       title: "Criar Turma",
       description: "Formulário de criação de uma turma no sistema",
-      target: () => ref1.current,
+      target: ref1.current,
       arrow: true,
     },
     {
       title: "Listar Turmas",
       description: "Listagem de todas as turmas do sistema",
-      target: () => ref2.current,
+      target: ref2.current,
       placement: "right",
     },
     {
       title: "Sugestões",
       description: "Sugestões de esportes escolhidos pelos alunos",
-      target: () => ref3.current,
+      target: ref3.current,
       placement: "top",
     },
     {
       title: "Empréstimo",
       description: "Formulário de empréstimo de materiais",
-      target: () => ref4.current,
+      target: ref4.current,
       placement: "right",
     },
   ];

@@ -13,11 +13,13 @@ export const formatHour = (value: string): string => {
   return formattedValue;
 };
 
-export const handleHourChange = (fieldName: string) => (form: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { value } = e.target;
-  const formattedValue = formatHour(value);
-  form.setFieldsValue({
-    [fieldName]: formattedValue,
-  });
-};
-
+export const handleHourChange =
+  (fieldName: string) =>
+  (form: any) =>
+  (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const formattedValue = formatHour(value);
+    form.setFieldsValue({
+      [fieldName]: formattedValue,
+    });
+  };

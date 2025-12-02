@@ -96,7 +96,7 @@ export default function FormTurma({
       getInfo();
     }
   }, [open]);
-  
+
   const handleHourChangeField = handleHourChange("horarioInicial", form);
 
   const onFinish = async (values: any) => {

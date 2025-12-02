@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const MIN_CHAR_LENGTH = 1000; // Mínimo de caracteres para considerar duplicação
 
@@ -13,10 +13,10 @@ function getAllFiles(dirPath, arrayOfFiles = []) {
     const filePath = path.join(dirPath, file);
     try {
       if (fs.statSync(filePath).isDirectory()) {
-        if (!file.startsWith('.') && file !== 'node_modules') {
+        if (!file.startsWith(".") && file !== "node_modules") {
           arrayOfFiles = getAllFiles(filePath, arrayOfFiles);
         }
-      } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
+      } else if (file.endsWith(".ts") || file.endsWith(".tsx")) {
         arrayOfFiles.push(filePath);
       }
     } catch (e) {
@@ -30,18 +30,20 @@ function getAllFiles(dirPath, arrayOfFiles = []) {
 // Extrair funções e componentes do código
 function extractBlocks(code, filename) {
   const blocks = [];
-  
+
   // Padrão para funções: function name() { ... } ou const name = () => { ... }
-  const functionPattern = /(?:function|const|export)\s+(\w+)\s*(?:=|[:\(])[^\{]*\{(?:[^{}]|\{[^{}]*\})*\}/g;
+  const functionPattern =
+    /(?:function|const|export)\s+(\w+)\s*(?:=|[:\(])[^\{]*\{(?:[^{}]|\{[^{}]*\})*\}/g;
   let match;
 
   while ((match = functionPattern.exec(code)) !== null) {
     const blockCode = match[0];
     // Remover trivialidades como "const router = useCardRouter();" ou "const handleLogout = ..."
-    const isTrivial = blockCode.length < MIN_CHAR_LENGTH || 
-                     blockCode.match(/^const\s+\w+\s*=\s*\w+\([^)]*\);?\s*$/) ||
-                     (blockCode.split('\n').length <= 1);
-    
+    const isTrivial =
+      blockCode.length < MIN_CHAR_LENGTH ||
+      blockCode.match(/^const\s+\w+\s*=\s*\w+\([^)]*\);?\s*$/) ||
+      blockCode.split("\n").length <= 1;
+
     if (!isTrivial) {
       blocks.push({
         filename,
@@ -59,13 +61,13 @@ function extractBlocks(code, filename) {
 // Calcular similaridade entre dois blocos de código
 function similarity(code1, code2) {
   if (code1 === code2) return 1.0;
-  
+
   // Remover espaços em branco e comentários
-  const normalize = (code) => 
+  const normalize = (code) =>
     code
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*/g, '')
-      .replace(/\s+/g, ' ')
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/.*/g, "")
+      .replace(/\s+/g, " ")
       .trim();
 
   const norm1 = normalize(code1);
@@ -91,7 +93,7 @@ function similarity(code1, code2) {
   return common / longer;
 }
 
-const srcPath = path.join(__dirname, 'src');
+const srcPath = path.join(__dirname, "src");
 console.log(`\n🔍 Analisando arquivos em ${srcPath}...\n`);
 
 const files = getAllFiles(srcPath);
@@ -100,7 +102,7 @@ console.log(`📁 ${files.length} arquivos encontrados\n`);
 const allBlocks = [];
 files.forEach((file) => {
   try {
-    const content = fs.readFileSync(file, 'utf8');
+    const content = fs.readFileSync(file, "utf8");
     const blocks = extractBlocks(content, file);
     allBlocks.push(...blocks);
   } catch (e) {
@@ -136,22 +138,23 @@ for (let i = 0; i < allBlocks.length; i++) {
 }
 
 if (duplicates.length > 0) {
-  console.log(`❌ ERRO: ${duplicates.length} funções/componentes duplicados detectados!\n`);
+  console.log(
+    `❌ ERRO: ${duplicates.length} funções/componentes duplicados detectados!\n`
+  );
   duplicates.slice(0, 15).forEach((dup, index) => {
-    console.log(`${index + 1}. ${dup.file1}::${dup.func1} <-> ${dup.file2}::${dup.func2}`);
+    console.log(
+      `${index + 1}. ${dup.file1}::${dup.func1} <-> ${dup.file2}::${dup.func2}`
+    );
     console.log(`   Similaridade: ${dup.similarity}%\n`);
   });
-  
+
   if (duplicates.length > 15) {
     console.log(`... e mais ${duplicates.length - 15} duplicações\n`);
   }
-  
+
   console.log(`Total: ${duplicates.length} funções/componentes duplicados\n`);
   process.exit(1);
 } else {
-  console.log('✅ Nenhum código duplicado significativo detectado!\n');
+  console.log("✅ Nenhum código duplicado significativo detectado!\n");
   process.exit(0);
 }
-
-
-
