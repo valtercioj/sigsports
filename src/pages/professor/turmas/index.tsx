@@ -123,7 +123,7 @@ export default function ListarTurmas({
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const token = req.cookies["sig-token"];
-  const matricula = req.cookies["matricula"];
+  const { matricula } = req.cookies;
   if (!token) {
     return {
       redirect: {

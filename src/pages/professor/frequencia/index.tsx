@@ -1,14 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Spin, notification } from "antd";
-
-import { Badge } from "@/components/ui/badge";
-import { Select } from "antd";
-const { Option } = Select;
+import { Spin, notification, Select } from "antd";
 import {
   Search,
   Calendar,
@@ -20,9 +13,16 @@ import {
   Loader2,
   MinusCircle,
 } from "lucide-react";
-import Layout from "@/components/LayoutProfessor";
 import { GetServerSideProps } from "next";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { Badge } from "@/components/ui/badge";
+import Layout from "@/components/LayoutProfessor";
 import { api } from "@/services/api";
+
+const { Option } = Select;
 interface Turma {
   id: number;
   nomeTurma: string;
@@ -70,7 +70,7 @@ export default function Frequencia({ professorId }: { professorId: number }) {
 
   useEffect(() => {
     if (selectedTurma && selectedTurma !== "") {
-      fetchAlunos(Number.parseInt(selectedTurma));
+      fetchAlunos(Number.parseInt(selectedTurma, 10));
     } else {
       setAlunos([]);
     }
@@ -315,245 +315,237 @@ export default function Frequencia({ professorId }: { professorId: number }) {
             </Card>
           )}
 
-          {selectedTurma && (
+          {selectedTurma && loadingAlunos ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <Loader2 className="text-primary-green mx-auto mb-4 h-8 w-8 animate-spin" />
+                <p className="text-gray-600">Carregando alunos...</p>
+              </div>
+            </div>
+          ) : selectedTurma ? (
             <>
-              {loadingAlunos ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="text-center">
-                    <Loader2 className="text-primary-green mx-auto mb-4 h-8 w-8 animate-spin" />
-                    <p className="text-gray-600">Carregando alunos...</p>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Estatísticas */}
-                  <div className="grid grid-cols-2 gap-3 px-2 sm:grid-cols-3 sm:gap-4 sm:px-0 lg:grid-cols-5">
-                    <Card>
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
-                              Total
-                            </p>
-                            <p className="text-lg font-bold text-gray-900 sm:text-2xl">
-                              {alunos.length}
-                            </p>
-                          </div>
-                          <Users className="text-primary-blue h-6 w-6 flex-shrink-0 sm:h-8 sm:w-8" />
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
-                              Presentes
-                            </p>
-                            <p className="text-lg font-bold text-green-600 sm:text-2xl">
-                              {presentes}
-                            </p>
-                          </div>
-                          <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-600 sm:h-8 sm:w-8" />
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
-                              Ausentes
-                            </p>
-                            <p className="text-lg font-bold text-red-600 sm:text-2xl">
-                              {ausentes}
-                            </p>
-                          </div>
-                          <XCircle className="h-6 w-6 flex-shrink-0 text-red-600 sm:h-8 sm:w-8" />
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
-                              Não Marcados
-                            </p>
-                            <p className="text-lg font-bold text-gray-500 sm:text-2xl">
-                              {naoMarcados}
-                            </p>
-                          </div>
-                          <MinusCircle className="h-6 w-6 flex-shrink-0 text-gray-500 sm:h-8 sm:w-8" />
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="col-span-2 sm:col-span-1">
-                      <CardContent className="p-3 sm:p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
-                              % Presença
-                            </p>
-                            <p className="text-primary-green text-lg font-bold sm:text-2xl">
-                              {percentualPresenca}%
-                            </p>
-                          </div>
-                          <Clock className="text-primary-green h-6 w-6 flex-shrink-0 sm:h-8 sm:w-8" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Lista de Alunos */}
-                  <Card className="mx-2 sm:mx-0">
-                    <CardHeader className="pb-3 sm:pb-4">
-                      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-                        <CardTitle className="flex items-center text-base sm:text-lg">
-                          <Users className="text-primary-green mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                          Lista de Presença ({filteredAlunos.length} alunos)
-                        </CardTitle>
-                        <div className="flex flex-wrap gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={marcarTodosPresentes}
-                            className="border-green-500 bg-transparent text-xs text-green-600 hover:bg-green-50 sm:text-sm"
-                          >
-                            <CheckCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
-                            <span className="hidden sm:inline">
-                              Todos Presentes
-                            </span>
-                            <span className="sm:hidden">Presentes</span>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={marcarTodosAusentes}
-                            className="border-red-500 bg-transparent text-xs text-red-600 hover:bg-red-50 sm:text-sm"
-                          >
-                            <XCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
-                            <span className="hidden sm:inline">
-                              Todos Ausentes
-                            </span>
-                            <span className="sm:hidden">Ausentes</span>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={limparFrequencia}
-                            className="border-gray-500 bg-transparent text-xs text-gray-600 hover:bg-gray-50 sm:text-sm"
-                          >
-                            <MinusCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
-                            Limpar
-                          </Button>
-                        </div>
+              {/* Estatísticas */}
+              <div className="grid grid-cols-2 gap-3 px-2 sm:grid-cols-3 sm:gap-4 sm:px-0 lg:grid-cols-5">
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                          Total
+                        </p>
+                        <p className="text-lg font-bold text-gray-900 sm:text-2xl">
+                          {alunos.length}
+                        </p>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {filteredAlunos.map((aluno) => (
+                      <Users className="text-primary-blue h-6 w-6 flex-shrink-0 sm:h-8 sm:w-8" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                          Presentes
+                        </p>
+                        <p className="text-lg font-bold text-green-600 sm:text-2xl">
+                          {presentes}
+                        </p>
+                      </div>
+                      <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-600 sm:h-8 sm:w-8" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                          Ausentes
+                        </p>
+                        <p className="text-lg font-bold text-red-600 sm:text-2xl">
+                          {ausentes}
+                        </p>
+                      </div>
+                      <XCircle className="h-6 w-6 flex-shrink-0 text-red-600 sm:h-8 sm:w-8" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                          Não Marcados
+                        </p>
+                        <p className="text-lg font-bold text-gray-500 sm:text-2xl">
+                          {naoMarcados}
+                        </p>
+                      </div>
+                      <MinusCircle className="h-6 w-6 flex-shrink-0 text-gray-500 sm:h-8 sm:w-8" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="col-span-2 sm:col-span-1">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                          % Presença
+                        </p>
+                        <p className="text-primary-green text-lg font-bold sm:text-2xl">
+                          {percentualPresenca}%
+                        </p>
+                      </div>
+                      <Clock className="text-primary-green h-6 w-6 flex-shrink-0 sm:h-8 sm:w-8" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Lista de Alunos */}
+              <Card className="mx-2 sm:mx-0">
+                <CardHeader className="pb-3 sm:pb-4">
+                  <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <CardTitle className="flex items-center text-base sm:text-lg">
+                      <Users className="text-primary-green mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                      Lista de Presença ({filteredAlunos.length} alunos)
+                    </CardTitle>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={marcarTodosPresentes}
+                        className="border-green-500 bg-transparent text-xs text-green-600 hover:bg-green-50 sm:text-sm"
+                      >
+                        <CheckCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">
+                          Todos Presentes
+                        </span>
+                        <span className="sm:hidden">Presentes</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={marcarTodosAusentes}
+                        className="border-red-500 bg-transparent text-xs text-red-600 hover:bg-red-50 sm:text-sm"
+                      >
+                        <XCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Todos Ausentes</span>
+                        <span className="sm:hidden">Ausentes</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={limparFrequencia}
+                        className="border-gray-500 bg-transparent text-xs text-gray-600 hover:bg-gray-50 sm:text-sm"
+                      >
+                        <MinusCircle className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+                        Limpar
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {filteredAlunos.map((aluno) => (
+                      <div
+                        key={aluno.id}
+                        className={`flex cursor-pointer items-center justify-between rounded-lg border-2 p-3 transition-colors sm:p-4 ${
+                          aluno.presente === true
+                            ? "border-green-200 bg-green-50"
+                            : aluno.presente === false
+                            ? "border-red-200 bg-red-50"
+                            : "border-gray-200 bg-gray-50"
+                        }`}
+                        onClick={() => togglePresenca(aluno.id)}
+                      >
+                        <div className="flex min-w-0 flex-1 items-center space-x-3 sm:space-x-4">
                           <div
-                            key={aluno.id}
-                            className={`flex cursor-pointer items-center justify-between rounded-lg border-2 p-3 transition-colors sm:p-4 ${
+                            className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 sm:h-6 sm:w-6 ${
                               aluno.presente === true
-                                ? "border-green-200 bg-green-50"
+                                ? "border-green-600 bg-green-600"
                                 : aluno.presente === false
-                                ? "border-red-200 bg-red-50"
-                                : "border-gray-200 bg-gray-50"
+                                ? "border-red-600 bg-red-600"
+                                : "border-gray-300 bg-gray-200"
                             }`}
-                            onClick={() => togglePresenca(aluno.id)}
                           >
-                            <div className="flex min-w-0 flex-1 items-center space-x-3 sm:space-x-4">
-                              <div
-                                className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 sm:h-6 sm:w-6 ${
-                                  aluno.presente === true
-                                    ? "border-green-600 bg-green-600"
-                                    : aluno.presente === false
-                                    ? "border-red-600 bg-red-600"
-                                    : "border-gray-300 bg-gray-200"
-                                }`}
-                              >
-                                {aluno.presente === true && (
-                                  <CheckCircle className="text-white h-3 w-3 sm:h-4 sm:w-4" />
-                                )}
-                                {aluno.presente === false && (
-                                  <XCircle className="text-white h-3 w-3 sm:h-4 sm:w-4" />
-                                )}
-                                {aluno.presente === null && (
-                                  <MinusCircle className="h-3 w-3 text-gray-500 sm:h-4 sm:w-4" />
-                                )}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="truncate text-sm font-medium text-gray-900 sm:text-base">
-                                  {aluno.nomeAluno}
-                                </p>
-                                <div className="mt-1 flex flex-col text-xs text-gray-600 sm:flex-row sm:items-center sm:space-x-4 sm:text-sm">
-                                  <span className="truncate">
-                                    {aluno.matricula}
-                                  </span>
-                                  <span className="hidden sm:inline">•</span>
-                                  <span className="truncate">
-                                    {aluno.curso}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="ml-2 flex-shrink-0">
-                              <Badge
-                                variant={
-                                  aluno.presente === true
-                                    ? "default"
-                                    : aluno.presente === false
-                                    ? "destructive"
-                                    : "secondary"
-                                }
-                                className={`text-xs ${
-                                  aluno.presente === true
-                                    ? "bg-green-600 text-gray-100 hover:text-black"
-                                    : aluno.presente === false
-                                    ? ""
-                                    : "bg-gray-500 text-gray-100 hover:text-black"
-                                }`}
-                              >
-                                {aluno.presente === true
-                                  ? "Presente"
-                                  : aluno.presente === false
-                                  ? "Ausente"
-                                  : "Não marcado"}
-                              </Badge>
+                            {aluno.presente === true && (
+                              <CheckCircle className="text-white h-3 w-3 sm:h-4 sm:w-4" />
+                            )}
+                            {aluno.presente === false && (
+                              <XCircle className="text-white h-3 w-3 sm:h-4 sm:w-4" />
+                            )}
+                            {aluno.presente === null && (
+                              <MinusCircle className="h-3 w-3 text-gray-500 sm:h-4 sm:w-4" />
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-gray-900 sm:text-base">
+                              {aluno.nomeAluno}
+                            </p>
+                            <div className="mt-1 flex flex-col text-xs text-gray-600 sm:flex-row sm:items-center sm:space-x-4 sm:text-sm">
+                              <span className="truncate">
+                                {aluno.matricula}
+                              </span>
+                              <span className="hidden sm:inline">•</span>
+                              <span className="truncate">{aluno.curso}</span>
                             </div>
                           </div>
-                        ))}
-                      </div>
-
-                      {filteredAlunos.length === 0 && !loadingAlunos && (
-                        <div className="py-8 text-center text-gray-500">
-                          <Users className="mx-auto mb-4 h-12 w-12 opacity-50" />
-                          <p>Nenhum aluno encontrado</p>
                         </div>
-                      )}
-
-                      <div className="mt-6 flex justify-end">
-                        <Button
-                          onClick={salvarFrequencia}
-                          className="bg-primary-green hover:bg-primary-green/90 px-6 text-sm text-white-default sm:px-8"
-                          disabled={alunos.length === 0}
-                        >
-                          <Save className="mr-2 h-4 w-4" />
-                          Salvar Frequência
-                        </Button>
+                        <div className="ml-2 flex-shrink-0">
+                          <Badge
+                            variant={
+                              aluno.presente === true
+                                ? "default"
+                                : aluno.presente === false
+                                ? "destructive"
+                                : "secondary"
+                            }
+                            className={`text-xs ${
+                              aluno.presente === true
+                                ? "bg-green-600 text-gray-100 hover:text-black"
+                                : aluno.presente === false
+                                ? ""
+                                : "bg-gray-500 text-gray-100 hover:text-black"
+                            }`}
+                          >
+                            {aluno.presente === true
+                              ? "Presente"
+                              : aluno.presente === false
+                              ? "Ausente"
+                              : "Não marcado"}
+                          </Badge>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </>
-              )}
+                    ))}
+                  </div>
+
+                  {filteredAlunos.length === 0 && !loadingAlunos && (
+                    <div className="py-8 text-center text-gray-500">
+                      <Users className="mx-auto mb-4 h-12 w-12 opacity-50" />
+                      <p>Nenhum aluno encontrado</p>
+                    </div>
+                  )}
+
+                  <div className="mt-6 flex justify-end">
+                    <Button
+                      onClick={salvarFrequencia}
+                      className="bg-primary-green hover:bg-primary-green/90 px-6 text-sm text-white-default sm:px-8"
+                      disabled={alunos.length === 0}
+                    >
+                      <Save className="mr-2 h-4 w-4" />
+                      Salvar Frequência
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </>
-          )}
+          ) : null}
         </div>
       </Spin>
     </Layout>
@@ -562,12 +554,12 @@ export default function Frequencia({ professorId }: { professorId: number }) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   // Forçando erro 500
-  //throw new Error("Erro forçado para teste da página 500");
+  // throw new Error("Erro forçado para teste da página 500");
 
   // Código original (não será executado)
 
   const token = req.cookies["sig-token"];
-  const matricula = req.cookies["matricula"];
+  const { matricula } = req.cookies;
   if (!token) {
     return {
       redirect: {

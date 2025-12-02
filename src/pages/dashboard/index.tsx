@@ -75,7 +75,10 @@ const IndexPage = ({
         return {
           ...turma,
           vagas_restantes: aluno.vagas_restantes,
-          alunosMatriculados: turma.vagas - aluno.vagas_restantes > turma.vagas ? turma.vagas : turma.vagas - aluno.vagas_restantes,
+          alunosMatriculados:
+            turma.vagas - aluno.vagas_restantes > turma.vagas
+              ? turma.vagas
+              : turma.vagas - aluno.vagas_restantes,
           vagaDisponivel: aluno.vagas_restantes > 0,
         };
       }
@@ -155,17 +158,18 @@ const IndexPage = ({
         {
           name: "Vagas Preenchidas",
           titulo: el.nomeTurma,
-          value: el.alunosMatriculados > el.vagas ? el.vagas : el.alunosMatriculados,
+          value:
+            el.alunosMatriculados > el.vagas ? el.vagas : el.alunosMatriculados,
         },
         {
           name: "Vagas Totais",
           titulo: el.nomeTurma,
-          value: el.vagas ,
+          value: el.vagas,
         }
       );
     }
   });
-console.log(equivalentesTodos);
+  console.log(equivalentesTodos);
   const config1: any = {
     data: data1,
     xField: "titulo",

@@ -1,12 +1,6 @@
-"use client";
-
+/* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Spin } from "antd";
-import { Badge } from "@/components/ui/badge";
 import {
   Search,
   Calendar,
@@ -15,11 +9,14 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Loader2,
   MinusCircle,
 } from "lucide-react";
-import Layout from "@/components/LayoutProfessor";
 import { GetServerSideProps } from "next";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import Layout from "@/components/LayoutProfessor";
 import { api } from "@/services/api";
 
 interface Turma {
@@ -51,7 +48,6 @@ interface AlunoFrequencia extends Aluno {
 }
 
 export default function FrequenciaPage({ turma }: { turma: Turma | null }) {
-  console.log("Turma:", turma);
   const [alunos, setAlunos] = useState<AlunoFrequencia[]>([]);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -131,7 +127,6 @@ export default function FrequenciaPage({ turma }: { turma: Turma | null }) {
       })),
     };
 
-    console.log("Enviando:", payload);
     alert("Frequência salva com sucesso!");
   };
 
@@ -244,8 +239,8 @@ export default function FrequenciaPage({ turma }: { turma: Turma | null }) {
                     `${percentualPresenca}%`,
                     <Clock className="text-primary-green" />,
                   ],
-                ].map(([label, value, icon], i) => (
-                  <Card key={i}>
+                ].map(([label, value, icon]) => (
+                  <Card key={String(label)}>
                     <CardContent className="p-3 sm:p-4">
                       <div className="flex items-center justify-between">
                         <div>
