@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Layout from "@/components/LayoutProfessor";
 import { api } from "@/services/api";
+import { getProfessorIdFromServerSideProps } from "@/utils/serverPropsUtils";
 
 const { Option } = Select;
 interface Turma {
@@ -552,14 +553,10 @@ export default function Frequencia({ professorId }: { professorId: number }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  // Forçando erro 500
-  // throw new Error("Erro forçado para teste da página 500");
-
-  // Código original (não será executado)
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context;
   const token = req.cookies["sig-token"];
-  const { matricula } = req.cookies;
+
   if (!token) {
     return {
       redirect: {
@@ -568,12 +565,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       },
     };
   }
-  const response = await api.get("v1/listarProfessores/");
-  const professor = response.data.find((p: any) => p.matricula === matricula);
-  const professorId = professor ? professor.id : null;
-  return {
-    props: {
-      professorId,
-    },
-  };
+
+  return getProfessorIdFromServerSideProps(context);
 };

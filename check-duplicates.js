@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const MIN_CHAR_LENGTH = 200; // Mínimo de caracteres para considerar duplicação
+const MIN_CHAR_LENGTH = 1000; // Mínimo de caracteres para considerar duplicação
 
 // Obter todos os arquivos .ts e .tsx
 function getAllFiles(dirPath, arrayOfFiles = []) {
@@ -37,7 +37,12 @@ function extractBlocks(code, filename) {
 
   while ((match = functionPattern.exec(code)) !== null) {
     const blockCode = match[0];
-    if (blockCode.length > MIN_CHAR_LENGTH) {
+    // Remover trivialidades como "const router = useCardRouter();" ou "const handleLogout = ..."
+    const isTrivial = blockCode.length < MIN_CHAR_LENGTH || 
+                     blockCode.match(/^const\s+\w+\s*=\s*\w+\([^)]*\);?\s*$/) ||
+                     (blockCode.split('\n').length <= 1);
+    
+    if (!isTrivial) {
       blocks.push({
         filename,
         name: match[1],

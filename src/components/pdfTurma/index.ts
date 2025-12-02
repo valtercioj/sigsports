@@ -2,6 +2,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+import { formatarDiasSemana } from "@/utils/dateUtils";
 
 // Configurar as fontes do pdfMake
 (pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs || pdfFonts;
@@ -27,22 +28,6 @@ export type AlunosType = {
   contato: string;
   curso: string;
 };
-
-function formatarDiasSemana(diasSemana: string) {
-  const diasArray = diasSemana.split(",");
-
-  if (diasArray.length === 1) {
-    return diasArray[0];
-  }
-  if (diasArray.length === 2) {
-    return diasArray.map((dia) => dia.replace("-feira", "")).join(" e ");
-  }
-  const ultimoDia = diasArray.pop();
-  const diasFormatados = diasArray
-    .map((dia) => dia.replace("-feira", ""))
-    .join(", ");
-  return `${diasFormatados} e ${ultimoDia?.replace("-feira", "")}`;
-}
 
 export function heightsTable(alunos: AlunosType[]) {
   const heightsList: Array<number> = [];

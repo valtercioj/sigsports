@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { api } from "@/services/api";
+import { formatHour } from "@/utils/formUtils";
+import { handleHourChange, formatHour } from "@/utils/formUtils";
 
 interface FormValues {
   horarioInicial: string;
@@ -94,17 +96,8 @@ export default function FormTurma({
       getInfo();
     }
   }, [open]);
-  // Função para lidar com a mudança nos inputs de hora
-  const handleHourChange =
-    (fieldName: keyof FormValues) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      const formattedValue = formatHour(value);
-      // Define o valor formatado de volta no estado do formulário
-      form.setFieldsValue({
-        [fieldName]: formattedValue,
-      });
-    };
+  
+  const handleHourChangeField = handleHourChange("horarioInicial", form);
 
   const onFinish = async (values: any) => {
     setLoading(true);

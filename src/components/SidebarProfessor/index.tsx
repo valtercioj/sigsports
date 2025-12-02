@@ -14,6 +14,8 @@ import ptBR from "antd/lib/locale/pt_BR";
 import type { TourProps } from "antd";
 import { LayoutDashboard, Users, ClipboardCheck, Calendar } from "lucide-react";
 import { api2 } from "@/services/api";
+import { useSidebarTour } from "@/hooks/useSidebarTour";
+import { handleLogout as handleLogoutUtil } from "@/utils/authUtils";
 import {
   Sidebar,
   SidebarContent,
@@ -57,23 +59,14 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
     }
   }
 
-  const condintions = (title: string) => {
-    if (title === "Criar Turma") {
-      return ref1;
-    }
-    if (title === "Listar Turmas") {
-      return ref2;
-    }
-    if (title === "Sugestões") {
-      return ref3;
-    }
-    if (title === "Empréstimo") {
-      return ref4;
-    }
-    if (title === "Usuários") {
-      return ref5;
-    }
-  };
+  const { condintions, steps, steps1 } = useSidebarTour({
+    ref1,
+    ref2,
+    ref3,
+    ref4,
+    ref5,
+  });
+
   React.useEffect(() => {
     setTimeout(() => {
       setOpenTour(tour === "1");
@@ -103,46 +96,7 @@ export default function AppSidebar({ adm, id }: { adm: boolean; id: number }) {
     },
   ];
 
-  const steps: TourProps["steps"] = [
-    {
-      title: "Criar Turma",
-      description: "Formulário de criação de uma turma no sistema",
-      target: () => ref1.current, // Usando o ref no alvo
-      arrow: true,
-    },
-    {
-      title: "Listar Turmas",
-      description: "Listagem de todas as turmas do sistema",
-      target: () => ref2.current, // Usando o ref no alvo
-      placement: "right",
-    },
-    {
-      title: "Sugestões",
-      description: "Sugestões de esportes escolhidos pelos alunos",
-      target: () => ref3.current, // Usando o ref no alvo
-      placement: "top",
-    },
-    {
-      title: "Empréstimo",
-      description: "Formulário de empréstimo de materiais",
-      target: () => ref4.current, // Usando o ref no alvo
-      placement: "right",
-    },
-  ];
-
-  const steps1: TourProps["steps"] = steps.slice(0, 4);
-
-  function handleLogout() {
-    destroyCookie(null, "sig-token");
-    destroyCookie(null, "sig-refreshToken");
-    destroyCookie(null, "matricula");
-    destroyCookie(null, "nome");
-    destroyCookie(null, "foto");
-    destroyCookie(null, "adm");
-    destroyCookie(null, "Tour");
-    destroyCookie(null, "id");
-    router.push("/login");
-  }
+  const handleLogout = handleLogoutUtil(router);
 
   return (
     <>
