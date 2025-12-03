@@ -39,6 +39,9 @@ jobs:
       - name: 💅 Verificar formatação (Prettier)
         run: npm run format:check
 
+      - name: 🔍 Detectar código duplicado
+        run: npm run duplicate:check
+
       - name: Check deprecated APIs
         run: npm run lint:deprecated
         continue-on-error: false

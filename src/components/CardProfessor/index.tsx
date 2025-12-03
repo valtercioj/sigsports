@@ -8,12 +8,13 @@
 /* eslint-disable react/jsx-no-bind */
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Quicksand } from "next/font/google";
 import { Dropdown, Menu, Modal, Button } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { api } from "@/services/api";
+import { formatarDiasSemana } from "@/utils/dateUtils";
+import { useCardRouter } from "@/hooks/useCardRouter";
 import EditarTurma from "@/components/Forms/editarTurma";
 
 const quicksand = Quicksand({
@@ -76,7 +77,7 @@ export default function Card({
   professores: Professores[];
 }) {
   const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
+  const router = useCardRouter();
   const [alunosMatriculados, setAlunosMatriculados] = useState<AlunosType[]>();
   const [alunosEspera, setAlunosEspera] = useState<AlunosType[]>();
   const handleGetAlunos = async () => {
@@ -94,22 +95,6 @@ export default function Card({
   useEffect(() => {
     handleGetAlunos();
   }, []);
-
-  function formatarDiasSemana(diasSemana: string) {
-    const diasArray = diasSemana.split(",");
-
-    if (diasArray.length === 1) {
-      return diasArray[0];
-    }
-    if (diasArray.length === 2) {
-      return diasArray.map((dia) => dia.replace("-feira", "")).join(" e ");
-    }
-    const ultimoDia = diasArray.pop();
-    const diasFormatados = diasArray
-      .map((dia) => dia.replace("-feira", ""))
-      .join(", ");
-    return `${diasFormatados} e ${ultimoDia?.replace("-feira", "")}`;
-  }
 
   function handleRedirect(id: number) {
     router.push(`/professor/frequenciaAluno/${id}`);

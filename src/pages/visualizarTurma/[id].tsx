@@ -19,6 +19,7 @@ import Layout from "@/components/Layout";
 import ModalAluno from "@/components/Forms/Aluno";
 import { pdfTurma } from "@/utils/pdfTurma";
 import { declaracao } from "@/utils/declaracaoAluno";
+import { formatarDiasSemana } from "@/utils/dateUtils";
 import { api } from "@/services/api";
 import { matricularAlunoEspera } from "@/utils/matricularAluno/matricularAlunoEspera";
 
@@ -400,21 +401,6 @@ const VisualizarTurma: NextPage<{
       ),
     },
   ];
-  function formatarDiasSemana(diasSemana: string) {
-    const diasArray = diasSemana.split(",");
-
-    if (diasArray.length === 1) {
-      return diasArray[0];
-    }
-    if (diasArray.length === 2) {
-      return diasArray.map((dia) => dia.replace("-feira", "")).join(" e ");
-    }
-    const ultimoDia = diasArray.pop();
-    const diasFormatados = diasArray
-      .map((dia) => dia.replace("-feira", ""))
-      .join(", ");
-    return `${diasFormatados} e ${ultimoDia?.replace("-feira", "")}`;
-  }
 
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === "Enter") {
