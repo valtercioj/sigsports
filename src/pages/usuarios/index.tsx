@@ -308,6 +308,7 @@ export default function Index() {
       title="Usuários"
       description="Gerenciamento de usuários cadastrados no sistema"
       op
+      SidebarComponent={() => null}
     >
       <>
         <div className="my-9 flex w-full flex-col justify-center gap-6 pr-5 md:my-0 md:mt-4 md:flex-row md:justify-between">

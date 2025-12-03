@@ -23,7 +23,7 @@ const items: TabsProps["items"] = [
 
 export default function Professores() {
   return (
-    <Layout title="Calendário" op>
+    <Layout title="Calendário" op SidebarComponent={() => null}>
       <div className="h-full w-full">
         <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
       </div>

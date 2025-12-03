@@ -96,6 +96,7 @@ export default function Sugestoes() {
       title="Sugestões"
       description="Gerenciamento de sugestões cadastrados no sistema"
       op
+      SidebarComponent={() => null}
     >
       <div className={`${quicksand.className} mt-4 w-full`}>
         <Table

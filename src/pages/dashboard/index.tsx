@@ -75,7 +75,10 @@ const IndexPage = ({
         return {
           ...turma,
           vagas_restantes: aluno.vagas_restantes,
-          alunosMatriculados: turma.vagas - aluno.vagas_restantes > turma.vagas ? turma.vagas : turma.vagas - aluno.vagas_restantes,
+          alunosMatriculados:
+            turma.vagas - aluno.vagas_restantes > turma.vagas
+              ? turma.vagas
+              : turma.vagas - aluno.vagas_restantes,
           vagaDisponivel: aluno.vagas_restantes > 0,
         };
       }
@@ -155,17 +158,18 @@ const IndexPage = ({
         {
           name: "Vagas Preenchidas",
           titulo: el.nomeTurma,
-          value: el.alunosMatriculados > el.vagas ? el.vagas : el.alunosMatriculados,
+          value:
+            el.alunosMatriculados > el.vagas ? el.vagas : el.alunosMatriculados,
         },
         {
           name: "Vagas Totais",
           titulo: el.nomeTurma,
-          value: el.vagas ,
+          value: el.vagas,
         }
       );
     }
   });
-console.log(equivalentesTodos);
+  console.log(equivalentesTodos);
   const config1: any = {
     data: data1,
     xField: "titulo",
@@ -264,7 +268,7 @@ console.log(equivalentesTodos);
   );
 
   return (
-    <Layout title="Dashboard" rollback={false} op>
+    <Layout title="Dashboard" rollback={false} op SidebarComponent={() => null}>
       <>
         <div className="mt-4 flex w-full flex-col items-center justify-between gap-y-4 pr-8 2xl:flex-row">
           <div className="flex h-[16.813rem] w-full flex-col items-center rounded-lg border border-l-8 border-r-8 border-green-200 p-8 shadow-md 2xl:w-[35.063rem] ">

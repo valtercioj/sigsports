@@ -1,0 +1,77 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [dev, master, main]
+  pull_request:
+    branches: [dev, master, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: 📐 Instalar PlantUML e dependências
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre graphviz
+          wget -q https://github.com/plantuml/plantuml/releases/download/v1.2024.3/plantuml-1.2024.3.jar -O /tmp/plantuml.jar
+
+      - name: 🔍 Instalar npm-check-updates
+        run: npm install -g npm-check-updates
+
+      - name: 📊 Listar atualizações disponíveis
+        run: npm run deps:check
+
+      - name: 📦 Instalar dependências atualizadas
+        run: npm install
+
+      - name: 🎨 Verificar padrão de codificação (ESLint + Airbnb)
+        run: npm run lint:check
+
+      - name: 💅 Verificar formatação (Prettier)
+        run: npm run format:check
+
+      - name: 🔍 Detectar código duplicado
+        run: npm run duplicate:check
+
+      - name: Check deprecated APIs
+        run: npm run lint:deprecated
+        continue-on-error: false
+
+      - name: 🔄 Gerar diagrama UML a partir do código
+        run: npm run uml:generate
+
+      - name: 🖼️ Gerar imagem do diagrama de classes UML
+        run: |
+          java -jar /tmp/plantuml.jar -tpng docs/diagrams/class-diagram.puml -o docs/diagrams/
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: .next/
+          retention-days: 7
+
+      - name: 📤 Upload diagrama de classes UML
+        uses: actions/upload-artifact@v4
+        with:
+          name: uml-class-diagram
+          path: docs/diagrams/
+          retention-days: 30

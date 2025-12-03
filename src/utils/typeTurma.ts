@@ -38,3 +38,27 @@ export interface TTurma {
   horarioInicial: string;
   horarioFinal: string;
 }
+
+export type AlunosType = {
+  id: number;
+  nomeAluno: string;
+  matricula: string;
+  contato: string;
+  curso: string;
+  matriculado?: number;
+};
+
+export type TurmaType = {
+  id: number;
+  nomeTurma: "string";
+  modalidade: number;
+  categoria: number;
+  vagas: number;
+  professor: "string";
+  genero: "string";
+  dias: "string";
+  horarioInicial: "string";
+  horarioFinal: "string";
+  turno: "string";
+  espaco?: "string";
+};

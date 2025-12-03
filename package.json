@@ -6,12 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:check": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
+    "lint:deprecated": "eslint --no-eslintrc --config .eslintrc.deprecation.cjs --ext .ts,.tsx src",
+    "deps:check": "ncu",
+    "deps:update": "ncu -u",
+    "deps:update-all": "ncu -u --target latest",
+    "deps:doctor": "ncu --doctor --doctorTest 'npm run build'",
+    "uml:generate": "tplant --input src/utils/typeTurma.ts src/utils/typeSolicitar.ts src/contexts/AuthContext.tsx --output docs/diagrams/class-diagram.puml",
+    "uml:png": "npm run uml:generate && java -jar /tmp/plantuml.jar -tpng docs/diagrams/class-diagram.puml -o docs/diagrams/",
+    "duplicate:check": "node check-duplicates.js"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
     "@hookform/resolvers": "^3.3.0",
     "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.1.6",
@@ -63,12 +76,21 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "12.2.3",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.1.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jscpd": "^4.0.5",
     "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.1.12"
+    "prettier-plugin-tailwindcss": "^0.1.12",
+    "tplant": "^3.1.0"
+  },
+  "overrides": {
+    "tplant": {
+      "node-plantuml": "npm:empty-npm-package@1.0.0"
+    }
   }
 }
