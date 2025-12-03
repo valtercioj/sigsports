@@ -16,8 +16,8 @@
     "deps:update": "ncu -u",
     "deps:update-all": "ncu -u --target latest",
     "deps:doctor": "ncu --doctor --doctorTest 'npm run build'",
-    "uml:generate": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.puml",
-    "uml:png": "tplant --input src/**/*.ts src/**/*.tsx --output docs/diagrams/class-diagram.png -A",
+    "uml:generate": "tplant --input src/utils/typeTurma.ts src/utils/typeSolicitar.ts src/contexts/AuthContext.tsx --output docs/diagrams/class-diagram.puml",
+    "uml:png": "npm run uml:generate && java -jar /tmp/plantuml.jar -tpng docs/diagrams/class-diagram.puml -o docs/diagrams/",
     "duplicate:check": "node check-duplicates.js"
   },
   "dependencies": {
