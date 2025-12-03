@@ -92,6 +92,7 @@ export default function ListarTurmas({
       title="Listagem de Turmas"
       description="visualizações de todas as turmas criadas"
       op
+      SidebarComponent={() => null}
     >
       <>
         <div className="flex h-full w-full flex-col items-center gap-x-4 md:flex-row">

@@ -205,6 +205,7 @@ export default function Cronograma({ professorId }: { professorId: number }) {
       title="Cronograma"
       description="Visualize o cronograma de aulas"
       rollback
+      SidebarComponent={() => null}
     >
       <Spin size="large" spinning={loading}>
         <div className="space-y-4 sm:space-y-6">

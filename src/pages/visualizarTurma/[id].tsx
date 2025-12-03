@@ -431,6 +431,7 @@ const VisualizarTurma: NextPage<{
         title="Visualizar Turma"
         description="Visualizar detalhes da turma"
         op={false}
+        SidebarComponent={() => null}
       >
         <div className="w-full">
           <div className="mt-4 flex  items-center  rounded-md border-[3px] border-green-200 py-2 pl-14 pr-10">

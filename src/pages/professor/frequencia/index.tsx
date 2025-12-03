@@ -207,6 +207,7 @@ export default function Frequencia({ professorId }: { professorId: number }) {
       title="Controle de Frequência"
       description="Registre a presença dos alunos em suas turmas"
       rollback
+      SidebarComponent={() => null}
     >
       <Spin size="large" spinning={loadingTurmas || loadingAlunos}>
         <div className="space-y-4 text-green-bg sm:space-y-6">

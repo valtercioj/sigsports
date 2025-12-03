@@ -62,4 +62,3 @@ export type TurmaType = {
   turno: "string";
   espaco?: "string";
 };
-

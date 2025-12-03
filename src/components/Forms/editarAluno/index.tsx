@@ -29,7 +29,7 @@ export default function FormUser({
     form.resetFields();
   };
   const [loading, setLoading] = useState(false);
-  const onFinish = async (values: Aluno) => {
+  const onFinish = async (values: AlunosType) => {
     const { id } = values;
     setLoading(true);
     try {

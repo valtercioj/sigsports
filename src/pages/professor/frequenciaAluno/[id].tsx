@@ -148,6 +148,7 @@ export default function FrequenciaPage({ turma }: { turma: Turma | null }) {
       title="Frequência da Turma"
       description="Registre a presença dos alunos desta turma"
       rollback
+      SidebarComponent={() => null}
     >
       <Spin spinning={loading}>
         <div className="space-y-4 sm:space-y-6">

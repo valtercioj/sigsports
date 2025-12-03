@@ -7,4 +7,3 @@ export type { TitleType };
 export default function Layout(props: TitleType) {
   return <BaseLayout {...props} SidebarComponent={Sidebar} />;
 }
-

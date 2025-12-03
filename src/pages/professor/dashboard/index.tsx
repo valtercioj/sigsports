@@ -83,6 +83,7 @@ export default function ProfessorDashboard() {
       title="Dashboard do Professor"
       description="Visão geral das suas atividades esportivas"
       rollback={false}
+      SidebarComponent={() => null}
     >
       <div className="mt-4 w-full">
         {/* Stats Cards */}
