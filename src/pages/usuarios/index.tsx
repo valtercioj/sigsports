@@ -498,7 +498,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   // Tentando acessar a API com o token
-  let response = await apiSuap.get("minhas-informacoes/meus-dados", {
+  let response = await apiSuap.get("rh/meus-dados/", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
