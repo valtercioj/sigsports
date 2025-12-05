@@ -53,7 +53,7 @@ api_form.createUser = async (data: any) => {
 api_form.getDataSuap = async (token: string) => {
   try {
     const response = await api_form.get(
-      "https://suap.ifrn.edu.br/api/v2/minhas-informacoes/meus-dados",
+      "https://suap.ifrn.edu.br/api/rh/meus-dados/",
       {
         headers: {
           Authorization: `Bearer ${token}`,
